@@ -4,7 +4,7 @@ namespace HttpWebServer.Shared
     using System;
     using System.Collections.Generic;
     using System.Text;
-
+    using HttpWebServer.Shared;
     public class ValidCommandsSingleton
     {
         private static ValidCommandsSingleton _instance;
@@ -19,7 +19,8 @@ namespace HttpWebServer.Shared
             if(_instance == null)
             {
                 SortedDictionary<string, string> commnads = new SortedDictionary<string, string>();
-                commnads.Add("-help", "");
+                commnads.Add("-help", ConsoleResponses.Help);
+                commnads.Add("-exit", ConsoleResponses.Exit);
                 _instance = new ValidCommandsSingleton(commnads);
                 
             }

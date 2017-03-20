@@ -9,18 +9,13 @@ namespace HttpWebServer.Classes.Engine
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using HttpServer;
+    using System.Net.Sockets;
     public class Engine : IHttpEngine
     {
         private static IHttpEngine _instance;
         private bool _isServerRunning = false;
-        public bool IsServerRunning
-        {
-            get
-            {
-                return this._isServerRunning;
-            }
-        }
+        private HttpServer _server = null;
         private  SortedDictionary<string, string> _allCommands;
         /// <summary>
         /// Singelton Pattern inplemented for the Engine
@@ -38,11 +33,22 @@ namespace HttpWebServer.Classes.Engine
         public string TakeUserInput(string inputCommand)
         {
             string result = this.ProcessUserInput(inputCommand);
+           
             return result;
         }
 
         internal string ProcessUserInput(string inputCommand)
         {
+            if (this._allCommands.ContainsKey(inputCommand))
+            {
+                var response = this._allCommands[inputCommand];
+                return response;
+            }
+            else
+            {
+                //Commands is not valid
+                return "Command " + inputCommand + " is not valid";
+            }
             throw new NotImplementedException();
         }
 
@@ -54,5 +60,38 @@ namespace HttpWebServer.Classes.Engine
             }
             return _instance;
         }
+        public bool IsServerRunning
+        {
+            get
+            {
+                return this._isServerRunning;
+            }
+        }
+        #region Server Actions
+        //Methods connected with the HttpWebServer
+        #region HTTPWebServerActions
+        private bool StartServer()
+        {
+            if (this._isServerRunning == false)
+            {
+                return false;
+            }
+            this._server = new HttpServer();
+            this._isServerRunning = true;
+            return true;
+        }
+        private bool StartServer(int port)
+        {
+            if(this._isServerRunning ==  false)
+            {
+                return false;
+            }
+            this._server = new HttpServer();
+            this._isServerRunning = true;
+            return true;
+        }
+        #endregion
+
+        #endregion
     }
 }
