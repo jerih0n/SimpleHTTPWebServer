@@ -15,7 +15,7 @@ namespace HttpWebServer.Classes.Engine
     {
         private static IHttpEngine _instance;
         private bool _isServerRunning = false;
-        private HttpServer _server = null;
+        private IHttpServer _server = null;
         private  SortedDictionary<string, string> _allCommands;
         /// <summary>
         /// Singelton Pattern inplemented for the Engine
@@ -42,6 +42,7 @@ namespace HttpWebServer.Classes.Engine
             if (this._allCommands.ContainsKey(inputCommand))
             {
                 var response = this._allCommands[inputCommand];
+
                 return response;
             }
             else
@@ -77,6 +78,7 @@ namespace HttpWebServer.Classes.Engine
                 return false;
             }
             this._server = new HttpServer();
+            
             this._isServerRunning = true;
             return true;
         }
@@ -93,5 +95,21 @@ namespace HttpWebServer.Classes.Engine
         #endregion
 
         #endregion
+
+        #region CommandInterpretator
+        private bool CommandIterpretator(string command)
+        {
+            switch(command)
+            {
+                case "exit": return true;
+                case "-help": return true;
+                case "-start -server":
+                    bool result = this.StartServer();
+                    return result;
+                default: return true; 
+            }
+        }
+        #endregion
     }
+
 }

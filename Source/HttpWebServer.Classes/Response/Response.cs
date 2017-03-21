@@ -8,5 +8,9 @@ namespace HttpWebServer.Classes.Response
 {
     public abstract class Response
     {
+        public Response()
+        {
+
+        }
     }
 }
