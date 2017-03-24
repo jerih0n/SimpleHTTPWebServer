@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\EngineActionsFactory.cs" />
-    <Compile Include="Actions\StartServerFormDefaultPort.cs" />
-    <Compile Include="Actions\StartServerFromCustomPort.cs" />
+    <Compile Include="Actions\NoAction.cs" />
+    <Compile Include="Actions\StartServer.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="HttpServer\HttpServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,15 +7,16 @@ using HttpWebServer.Interfaces;
 
 namespace HttpWebServer.Classes.Actions
 {
-    public class StartServerFromCustomPort : Action
+    public class StartServer : Action
     {
-        public StartServerFromCustomPort(IHttpServer engineInstance) : base(engineInstance)
+        public StartServer(IHttpServer engineInstance) : base(engineInstance)
         {
 
         }
         public override bool PerformAction(string input)
         {
-            throw new NotImplementedException();
+            IHttpServer server = this.GetServer;
+            return server.Start();
         }
     }
 }
