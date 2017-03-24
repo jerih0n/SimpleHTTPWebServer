@@ -19,6 +19,7 @@ namespace HttpWebServer.Console
             //Instance of server's valid commands;
             string starsSrtring = new string('*', Console.WindowWidth);
             _serverEngine = Engine.Instance();
+            
             Console.WriteLine(starsSrtring);
             Console.WriteLine("This is basic http web server v1.0. Server is created by Jerihon GitHub:");
             Console.WriteLine("https://github.com/jerih0n");

@@ -40,9 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEngineActionsProvider.cs" />
     <Compile Include="IHttpEngine.cs" />
     <Compile Include="IHttpServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HttpWebServer.Shared\HttpWebServer.Shared.csproj">
+      <Project>{2219b734-b903-4388-92ae-74473e68ecec}</Project>
+      <Name>HttpWebServer.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
