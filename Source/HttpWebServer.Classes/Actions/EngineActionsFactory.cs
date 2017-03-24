@@ -23,8 +23,8 @@ namespace HttpWebServer.Classes.Actions
         {
            switch(command)
             {
-                case ServerCommandsEnums.Exit: return null;
-                case ServerCommandsEnums.Help: return null;
+                case ServerCommandsEnums.Exit: return new NoAction(this._httpServer);
+                case ServerCommandsEnums.Help: return new NoAction(this._httpServer);
                 case ServerCommandsEnums.StartServerOnDefaultPort: return new StartServerFormDefaultPort(this._httpServer);
                 case ServerCommandsEnums.StartServerOnCustomPort: return new StartServerFromCustomPort(this._httpServer);
             }
