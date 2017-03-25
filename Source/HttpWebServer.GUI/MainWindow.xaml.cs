@@ -18,6 +18,9 @@ namespace HttpWebServer.GUI
     using System.Windows.Shapes;
     using HttpWebServer.Classes.Engine;
     using HttpWebServer.Interfaces;
+    using HttpWebServer.Classes.Models;
+    using HttpWebServer.Shared.Enums;
+    using HttpWebServer.Shared.DataTransfer;
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -26,15 +29,41 @@ namespace HttpWebServer.GUI
         private IHttpEngine _engine;
         private string _webSiteName;
         private IValidatable _dataTransferClass;
+        private ModelFactory _modelFactory;
+        
         public MainWindow()
         {
             this._engine = Engine.Instance();
+            this._modelFactory = new ModelFactory();
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void onButtonClick(object sender, RoutedEventArgs e)
         {
+            Button button = (Button)sender;
+            var allProperties = this.GetAllProperties();
+            var correctModel = this._modelFactory.GetProperModel(allProperties);
+            //invoke is valid
+            HTTPValidationResult validationResult=  correctModel.Validate();
+            if(!validationResult.IsValid)
+            {
+                //send message 
+            }
+            var output = this._engine.TakeUserInput(
+                validationResult.HTTPServerClassCommand, 
+                validationResult.InputForHTTPServerClass);
+
+
+            
             
         }
+        private AllPoperties GetAllProperties()
+        {
+            AllPoperties result = new AllPoperties();
+            
+            return result;
+        }
+
+
     }
 }

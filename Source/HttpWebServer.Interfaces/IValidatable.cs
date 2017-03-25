@@ -8,6 +8,6 @@ namespace HttpWebServer.Interfaces
     /// </summary>
     public interface IValidatable
     {
-        ValidationResult Validate();
+        HTTPValidationResult Validate();
     }
 }

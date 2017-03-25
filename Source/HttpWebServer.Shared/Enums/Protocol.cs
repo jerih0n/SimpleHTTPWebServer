@@ -8,6 +8,7 @@ namespace HttpWebServer.Shared.Enums
 {
     public enum Protocol
     {
-        HTTP = 0
+        None =0,
+        HTTP = 1
     }
 }
