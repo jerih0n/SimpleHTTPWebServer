@@ -13,6 +13,12 @@ namespace HttpWebServer.Classes.Actions
         {
 
         }
+
+        public override string GetResponse()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool PerformAction(string input)
         {
             IHttpServer server = this.GetServer;

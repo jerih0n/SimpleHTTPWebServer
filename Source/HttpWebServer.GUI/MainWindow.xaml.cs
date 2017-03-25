@@ -24,10 +24,17 @@ namespace HttpWebServer.GUI
     public partial class MainWindow : Window
     {
         private IHttpEngine _engine;
+        private string _webSiteName;
+        private IValidatable _dataTransferClass;
         public MainWindow()
         {
             this._engine = Engine.Instance();
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

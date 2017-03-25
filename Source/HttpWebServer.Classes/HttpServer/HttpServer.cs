@@ -10,6 +10,7 @@ namespace HttpWebServer.Classes.HttpServer
     using System.Net;
     using HttpWebServer.Interfaces;
     using System.Threading;
+    using System.IO;
 
     public class HttpServer : IHttpServer
     {
@@ -71,6 +72,12 @@ namespace HttpWebServer.Classes.HttpServer
         }
         private string HandeClient(TcpClient client)
         {
+            StreamReader reader = new StreamReader(client.GetStream());
+            
+            while(reader.Peek()!= -1)
+            {
+
+            }
             return "";
         }
         #endregion

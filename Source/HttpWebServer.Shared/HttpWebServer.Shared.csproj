@@ -40,7 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleResponses.cs" />
+    <Compile Include="DataTransfer\ValidationResult.cs" />
+    <Compile Include="Enums\HostTypes.cs" />
+    <Compile Include="Enums\Protocol.cs" />
+    <Compile Include="ServerOutput.cs" />
     <Compile Include="Enums\ServerCommandsEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidCommandsStaticProperties.cs" />

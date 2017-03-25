@@ -14,12 +14,13 @@ namespace HttpWebServer.Classes.Engine
     using System.Net.Sockets;
     using System.Text.RegularExpressions;
     using HttpWebServer.Classes.Actions;
-    public class Engine : IHttpEngine, IEngineActionsProvider
+    public class Engine : IHttpEngine
     {
         private static IHttpEngine _instance;
         private bool _isServerRunning = false;
         private IHttpServer _server = null;
         private EngineActionsFactory _factoryMethod;
+        private const int LastPortNumber = 65535;
         /// <summary>
         /// Singelton Pattern inplemented for the Engine
         /// </summary>
@@ -33,19 +34,31 @@ namespace HttpWebServer.Classes.Engine
         /// </summary>
         /// <param name="inputCommand"></param>
         /// <returns></returns>
-        public string TakeUserInput(ServerCommandsEnums serverCommand,string input)
+        public string TakeUserInput(ServerCommandsEnums serverCommand, string input)
         {
-            string result = this.ProcessUserInput(serverCommand,input);
-           
+            string result = this.ProcessUserInput(serverCommand, input);
+
             return result;
         }
 
-        internal string ProcessUserInput(ServerCommandsEnums serverCommand,string input)
+        private string ProcessUserInput(ServerCommandsEnums serverCommand, string input)
         {
-            if(ServerCommandsEnums.StartServerOnCustomPort == serverCommand)
+            if (ServerCommandsEnums.StartServerOnCustomPort == serverCommand)
             {
                 //initializing the instance of the HTTP server on port
-                
+                try
+                {
+                    var newPort = int.Parse(input);
+                    if (newPort <= 0 || newPort > LastPortNumber)
+                    {
+                        return ServerOutput.PortNotValid;
+                    }
+
+                }
+                catch (InvalidCastException)
+                {
+                    return ServerOutput.PortMustBeNumber;
+                }
             }
             this._factoryMethod = new EngineActionsFactory(this._server);
             var action = this._factoryMethod.GetRequiredActionClass(serverCommand);
@@ -56,7 +69,7 @@ namespace HttpWebServer.Classes.Engine
 
         public static IHttpEngine Instance()
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 _instance = new Engine();
             }
@@ -69,38 +82,7 @@ namespace HttpWebServer.Classes.Engine
                 return this._isServerRunning;
             }
         }
-
-        #region Server Actions
-        //Methods connected with the HttpWebServer
-        #region HTTPWebServerActions
-        
-        public bool StartServer(int port)
-        {
-            if(this._isServerRunning ==  false)
-            {
-                return false;
-            }
-            this._server = new HttpServer();
-            this._isServerRunning = true;
-            return true;
-        }
-        #endregion
-
-        public bool StartServer()
-        {
-            if (this._isServerRunning == false)
-            {
-                return false;
-            }
-            this._server = new HttpServer();
-
-            this._isServerRunning = true;
-            return true;
-        }
-        #endregion
-
-
-
+    
 
     }
 

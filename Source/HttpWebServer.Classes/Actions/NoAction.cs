@@ -17,5 +17,9 @@ namespace HttpWebServer.Classes.Actions
         {
             return true;
         }
+        public override string GetResponse()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

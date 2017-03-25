@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IEngineActionsProvider.cs" />
     <Compile Include="IHttpEngine.cs" />
     <Compile Include="IHttpServer.cs" />
+    <Compile Include="IValidatable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
