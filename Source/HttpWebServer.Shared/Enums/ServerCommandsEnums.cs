@@ -12,6 +12,7 @@ namespace HttpWebServer.Shared.Enums
         Exit = 1,
         StartServerOnDefaultPort = 2,
         StartServerOnCustomPort = 3,
-        StopServer = 4
+        StopServer = 4,
+        SaveNewBinding = 5
     }
 }

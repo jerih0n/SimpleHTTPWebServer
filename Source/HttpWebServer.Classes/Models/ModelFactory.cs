@@ -8,13 +8,14 @@ namespace HttpWebServer.Classes.Models
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using HttpWebServer.Shared;
     public class ModelFactory
     {
         public IValidatable GetProperModel(AllPoperties allPoroperties)
         {
             switch(allPoroperties.ButtonName)
             {
-                case "createNewBinding": return
+                case ActionButtonName.AddNewBinding: return
                         new WebsiteBinding(allPoroperties.WebSiteName, 
                         allPoroperties.Hosting, allPoroperties.Port, 
                         allPoroperties.Protocol, 

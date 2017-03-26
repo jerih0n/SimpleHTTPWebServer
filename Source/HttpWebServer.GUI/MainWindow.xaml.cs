@@ -41,7 +41,8 @@ namespace HttpWebServer.GUI
         public void onButtonClick(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            var allProperties = this.GetAllProperties();
+            var allProperties = this.GetAllProperties(button.Name);
+            
             var correctModel = this._modelFactory.GetProperModel(allProperties);
             //invoke is valid
             HTTPValidationResult validationResult=  correctModel.Validate();
@@ -57,10 +58,26 @@ namespace HttpWebServer.GUI
             
             
         }
-        private AllPoperties GetAllProperties()
+        //Add every new UI controler here!
+        private AllPoperties GetAllProperties(string buttonName)
         {
+            Protocol protocol = Protocol.None;
+            HostType host = HostType.None;
             AllPoperties result = new AllPoperties();
-            
+            result.ButtonName = buttonName;
+            if((bool)localHostRadioButton.IsChecked)
+            {
+                host = HostType.LANIpAddress;
+            }
+            if((bool)protocolHTTPRadioButton.IsChecked)
+            {
+                protocol = Protocol.HTTP;
+            }
+            result.Protocol = protocol;
+            result.Hosting = host;
+            result.Port = portInputField.Text;
+            result.WebSiteName = webServerNameField.Text;
+            result.WebSitePath = physicalPathInputField.Text;
             return result;
         }
 

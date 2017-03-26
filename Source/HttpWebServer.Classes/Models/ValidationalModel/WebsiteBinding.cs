@@ -41,7 +41,8 @@ namespace HttpWebServer.Classes.Models
 
         public HTTPValidationResult Validate()
         {
-            //TODO : // website name must be unique
+            //TODO : // website port  must be unique
+            //TODO : // nameShouldBeUnique
             //TODO : // port should be an integer and between 0 and 65535
             //TODO : // website path shoud exist
             return this._validationResult;
