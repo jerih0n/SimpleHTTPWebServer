@@ -31,7 +31,7 @@ namespace HttpWebServer.Classes.Engine
             // we are declaring a IHttpServer class running on the default port
             this._server = new HttpServer();
             this._bindingManager = BindingManager.BindingsConfigurationManager.Instace();
-            this._bindingManager.GerAllBindedWebSites();
+            this._bindingManager.InitiateBindings();
             this._factoryMethod = new EngineActionsFactory(this._server);
         }
         /// <summary>
@@ -48,23 +48,6 @@ namespace HttpWebServer.Classes.Engine
 
         private string ProcessUserInput(ServerCommandsEnums serverCommand, string input)
         {
-            if (ServerCommandsEnums.StartServerOnCustomPort == serverCommand)
-            {
-                //initializing the instance of the HTTP server on port
-                try
-                {
-                    var newPort = int.Parse(input);
-                    if (newPort <= 0 || newPort > LastPortNumber)
-                    {
-                        return ServerOutput.PortNotValid;
-                    }
-
-                }
-                catch (InvalidCastException)
-                {
-                    return ServerOutput.PortMustBeNumber;
-                }
-            }
             var action = this._factoryMethod.GetRequiredActionClass(serverCommand);
             var resul = action.PerformAction(input);
 

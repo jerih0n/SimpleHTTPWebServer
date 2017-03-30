@@ -20,22 +20,26 @@ namespace HttpWebServer.Classes.BindingManager
         private static BindingsConfigurationManager _instance;
         private bool isChanged = true;
         private Dictionary<int, WebsiteBingingParameters> _allWebsitesKeyPort;
+        private Dictionary<string, WebsiteBingingParameters> _allWebsitesKeyWebsiteName;
+        private Dictionary<string, WebsiteBingingParameters> _allWebsitesKeyPath;
         protected BindingsConfigurationManager()
         {
             this._serializer = new XmlSerializer(typeof(Bindings));
             this._directory = Environment.CurrentDirectory + "/ServerConfig/" + BindingConfigFileName;
             this._allWebsitesKeyPort = new Dictionary<int, WebsiteBingingParameters>();
+            this._allWebsitesKeyPath = new Dictionary<string, WebsiteBingingParameters>();
+            this._allWebsitesKeyWebsiteName = new Dictionary<string, WebsiteBingingParameters>();
 
         }
         /// <summary>
-        /// Get Dictionary of all website bindings. key in the dictionary is the PORT. Any changes to the XML struct should be added here!
+        /// Set three Dictionaries of all website bindings. key in the dictionaries are PORT, Name and Path. Any changes to the XML struct should be added here!
         /// </summary>
         /// <returns></returns>
-        public Dictionary<int, WebsiteBingingParameters> GerAllBindedWebSites()
+        public void InitiateBindings()
         {
             if(!isChanged)
             {
-                return this._allWebsitesKeyPort;
+                return;
             }
             FileStream fileStream;
             try
@@ -77,8 +81,10 @@ namespace HttpWebServer.Classes.BindingManager
                     siteParams.HostType = Shared.Enums.HostType.None;
                 }
                 this._allWebsitesKeyPort.Add(siteParams.Port, siteParams);
+                this._allWebsitesKeyWebsiteName.Add(siteParams.WebsiteName, siteParams);
+                this._allWebsitesKeyPath.Add(siteParams.WebSiteServerPath, siteParams);
             }
-            return this._allWebsitesKeyPort;
+            return;
         }
         /// <summary>
         /// Get already created  instance of the class(Singelton pattern) 
@@ -92,6 +98,38 @@ namespace HttpWebServer.Classes.BindingManager
             }
             return _instance;
         }
-        
+        /// <summary>
+        /// Return Map of all websites bindings with port as key. Fast search by port number
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, WebsiteBingingParameters> GetBindingsWithPortAsAKey()
+        {
+            return this._allWebsitesKeyPort;
+        }
+        /// <summary>
+        /// Return Map of all websites bindings with website name as key. Fast search by website name
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, WebsiteBingingParameters> GetBindingsWithNameAsKey()
+        {
+            return this._allWebsitesKeyWebsiteName;
+        }
+        /// <summary>
+        /// Return Map of all websites bindings with website path as key. Fast search by website path
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, WebsiteBingingParameters> GetBindingsWithPatheAsKey()
+        {
+            return this._allWebsitesKeyWebsiteName;
+        }
+        /// <summary>
+        /// Invoke after every new binding. Re Initiate the collections 
+        /// </summary>
+        public void ReInitiate()
+        {
+            this.isChanged = true;
+            this.InitiateBindings();
+        }
+
     }
 }
