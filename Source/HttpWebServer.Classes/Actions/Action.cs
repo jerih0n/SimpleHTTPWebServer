@@ -27,6 +27,8 @@ namespace HttpWebServer.Classes.Actions
             }
         }
         public abstract string GetResponse();
+        
+        
             
     }
 }

@@ -48,7 +48,7 @@ namespace HttpWebServer.GUI
             HTTPValidationResult validationResult=  correctModel.Validate();
             if(!validationResult.IsValid)
             {
-                //send message 
+                return;
             }
             var output = this._engine.TakeUserInput(
                 validationResult.HTTPServerClassCommand, 

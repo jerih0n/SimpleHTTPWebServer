@@ -71,18 +71,18 @@ namespace HttpWebServer.Classes.Models
                 this._validationResult.Message = WebsiteNameExist;
                 return this._validationResult;
             }
-            // website path shoud exist and should be unique
-            if(!Directory.Exists(this.WebsitePath))
-            {
-                this._validationResult.Message = PathDoesNotExist;
-                return this._validationResult;
-            }
-            var bindingByPath = BindingManager.BindingsConfigurationManager.Instace().GetBindingsWithPatheAsKey();
-            if(bindingByPath.ContainsKey(this.WebsitePath))
-            {
-                this._validationResult.Message = PathAlreadyExist;
-                return this._validationResult;
-            }
+            //website path shoud exist and should be unique
+            //if (!Directory.Exists(this.WebsitePath))
+            //{
+            //    this._validationResult.Message = PathDoesNotExist;
+            //    return this._validationResult;
+            //}
+            //var bindingByPath = BindingManager.BindingsConfigurationManager.Instace().GetBindingsWithPatheAsKey();
+            //if (bindingByPath.ContainsKey(this.WebsitePath))
+            //{
+            //    this._validationResult.Message = PathAlreadyExist;
+            //    return this._validationResult;
+            //}
             this._validationResult.Message = Success;
             this._validationResult.IsValid = true;
             this._validationResult.HTTPServerClassCommand = ServerCommandsEnums.SaveNewBinding;

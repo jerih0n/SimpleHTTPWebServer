@@ -13,6 +13,8 @@ namespace HttpWebServer.Classes.Models
     {
         public IValidatable GetProperModel(AllPoperties allPoroperties)
         {
+            //Refactor with Dictionary
+            
             switch(allPoroperties.ButtonName)
             {
                 case ActionButtonName.AddNewBinding: return
