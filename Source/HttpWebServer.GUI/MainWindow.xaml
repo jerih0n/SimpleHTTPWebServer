@@ -12,25 +12,26 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="Binding" FontSize="14">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Margin="0,-3,0,3">
                     <Label Content="Web Site Name" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.674,0.414" FontSize="14"/>
                     <Label Content="Add new website binding" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.023,0.172" Width="497" FontSize="18"/>
                     <TextBox x:Name ="webServerNameField" HorizontalAlignment="Left" Height="23" Margin="142,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" FontSize="14"/>
                     <Label Content="Type Of Host" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="top" FontSize="14"/>
                     <Label Content="Port" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <RadioButton x:Name="localHostRadioButton" Content="Local" HorizontalAlignment="Left" Margin="142,104,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.282,1.615" />
-                    <RadioButton x:Name="serverHostRadioButton" Content="PC LAN IP" HorizontalAlignment="Left" Margin="240,100,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label  x:Name="localIPaddressLabel" Content="Label" HorizontalAlignment="Left" Margin="323,95,0,0" VerticalAlignment="Top" FontSize="14" Width="61"/>
-                    <TextBox x:Name="portInputField" HorizontalAlignment="Left" Height="23" Margin="142,158,0,0" TextWrapping="Wrap" Text="8080" VerticalAlignment="Top" Width="63" FontSize="14"/>
-                    <Label Content="Default port 8080" HorizontalAlignment="Left" Margin="240,156,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <RadioButton x:Name="protocolHTTPRadioButton" Content="HTTP" HorizontalAlignment="Left" Margin="144,217,0,0" VerticalAlignment="Top" FontSize="14" IsChecked="True"/>
+                    <RadioButton x:Name="localHostRadioButton" GroupName="hostTypeGroup" Content="Local" HorizontalAlignment="Left" Margin="142,104,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.282,1.615" />
+                    <RadioButton x:Name="serverHostRadioButton" GroupName="hostTypeGroup" Content="PC LAN IP" HorizontalAlignment="Left" Margin="226,104,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label  x:Name="localIPaddressLabel"  Content="" HorizontalAlignment="Left" Margin="324,99,0,0" VerticalAlignment="Top" FontSize="14" Width="235"/>
+                    <TextBox x:Name="portInputField" HorizontalAlignment="Left" Height="23" Margin="142,158,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="63" FontSize="14"/>
+                    <Label Content="Default port 8080" HorizontalAlignment="Left" Margin="240,152,0,0" VerticalAlignment="Top" FontSize="14" Width="155"/>
+                    <RadioButton x:Name="protocolHTTPRadioButton" GroupName="protocolTypeGroup" Content="HTTP" HorizontalAlignment="Left" Margin="144,217,0,0" VerticalAlignment="Top" FontSize="14" IsChecked="True"/>
                     <Label HorizontalAlignment="Left" Margin="25,119,0,0" VerticalAlignment="Top"/>
                     <Label Content="Protocol" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Physical Path" HorizontalAlignment="Left" Margin="10,260,0,0" VerticalAlignment="Top" FontSize="14" Width="102"/>
-                    <TextBox x:Name="physicalPathInputField" HorizontalAlignment="Left" Height="23" Margin="144,260,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="280" FontSize="14"/>
-                    <Button Name="createNewBinding" Content="Add New Binding" HorizontalAlignment="Left" Margin="10,317,0,0" VerticalAlignment="Top" Width="141"  FontSize="14" Click="onButtonClick"/>
+                    <Label Content="Physical Path" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" FontSize="14" Width="102"/>
+                    <TextBox x:Name="physicalPathInputField" HorizontalAlignment="Left" Height="23" Margin="142,280,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="280" FontSize="14" IsReadOnly="True"/>
+                    <Button Name="createNewBinding" Content="Add New Binding" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" Width="141"  FontSize="14" Click="onButtonClick"/>
                     <Label Content="Success" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="14" Width="467" Foreground="Green" Visibility="Hidden"/>
                     <Label Content="Error" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="14" Width="467" Foreground="Red" Visibility="Hidden"/>
+                    <Button x:Name= "browseSitePath" Content="Browse" HorizontalAlignment="Left" Margin="445,280,0,0" VerticalAlignment="Top" Width="75" Click="browseSitePath_Click" />
 
                 </Grid>
             </TabItem>

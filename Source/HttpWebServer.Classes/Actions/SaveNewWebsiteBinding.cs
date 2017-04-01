@@ -22,13 +22,13 @@ namespace HttpWebServer.Classes.Actions
         //Input pattern {name}:{hostType}:{port}:{protocol}:{path}
         public override bool PerformAction(string input)
         {
-            var inputParams = input.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            var inputParams = input.Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
             var bindingManager = BindingManager.BindingsConfigurationManager.Instace();
-            bindingManager
+            var result = bindingManager
                 .AddNewBinding(inputParams[0],
                 inputParams[1], int.Parse(inputParams[2]),
-                inputParams[3], inputParams[4]);
-            throw new NotImplementedException();
+                inputParams[3], inputParams[4],inputParams[5]);
+            return result;
         }
     }
 }

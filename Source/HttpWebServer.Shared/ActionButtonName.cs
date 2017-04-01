@@ -9,5 +9,6 @@ namespace HttpWebServer.Shared
     public static class ActionButtonName
     {
         public const string AddNewBinding = "createNewBinding";
+        public const string BrowseWebsitePaht = "browseSitePath";
     }
 }

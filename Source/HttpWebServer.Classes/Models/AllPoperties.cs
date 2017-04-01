@@ -16,6 +16,7 @@ namespace HttpWebServer.Classes.Models
         public string Port { get; set; }
         public Protocol Protocol { get; set; }
         public HostType Hosting { get; set; }
+        public string IpAddress { get; set; }
 
     }
 }

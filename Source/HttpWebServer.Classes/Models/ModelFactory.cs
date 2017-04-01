@@ -19,9 +19,10 @@ namespace HttpWebServer.Classes.Models
             {
                 case ActionButtonName.AddNewBinding: return
                         new WebsiteBinding(allPoroperties.WebSiteName, 
-                        allPoroperties.Hosting, allPoroperties.Port, 
+                        allPoroperties.Hosting, allPoroperties.Port,
+                        allPoroperties.IpAddress,
                         allPoroperties.Protocol, 
-                        allPoroperties.WebSitePath);
+                        allPoroperties.WebSitePath);              
                 default: return null;
             }
         }

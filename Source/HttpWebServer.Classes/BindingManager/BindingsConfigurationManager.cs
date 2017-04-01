@@ -148,8 +148,28 @@ namespace HttpWebServer.Classes.BindingManager
             this.isChanged = true;
             this.InitiateBindings();
         }
-        public bool AddNewBinding(string serverName, string hostingType, int port,  string protocol, string path)
+        public bool AddNewBinding(string webSiteName, string hostingType, int port, string IPAddress,  string protocol, string path)
         {
+            var newBInding = new BindingParameters()
+            {
+                IPAddress = IPAddress,
+                HostType = hostingType,
+                Port = port,
+                Protocol = protocol,
+                ServerPath = path,
+                WebSiteName = webSiteName
+            };
+            var fileStream = new FileStream(this._directory, FileMode.Open);           
+            Bindings bindig = (Bindings)this._serializer.Deserialize(fileStream);
+            bindig.AllBindings.Add(newBInding);
+            var directory = Environment.CurrentDirectory + ServerConfigDirectoryName + BindingConfigFileName;
+            var serializer = new XmlSerializer(bindig.GetType());
+            fileStream.Close();
+            using (var writter = XmlWriter.Create(directory))
+            {
+                serializer.Serialize(writter, bindig);
+            }
+
             this.isChanged = true;
             return true;
         }

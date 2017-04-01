@@ -21,6 +21,7 @@ namespace HttpWebServer.GUI
     using HttpWebServer.Classes.Models;
     using HttpWebServer.Shared.Enums;
     using HttpWebServer.Shared.DataTransfer;
+    using System.Windows.Forms;
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -35,12 +36,16 @@ namespace HttpWebServer.GUI
         {
             this._engine = Engine.Instance();
             this._modelFactory = new ModelFactory();
+            //local lan Ip address     
             InitializeComponent();
+            localIPaddressLabel.Content = string.Format("LAN IP - {0}",this._engine.LocalIpAddress);
         }
+
+        
 
         public void onButtonClick(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
+            System.Windows.Controls.Button button = (System.Windows.Controls.Button)sender;
             var allProperties = this.GetAllProperties(button.Name);
             
             var correctModel = this._modelFactory.GetProperModel(allProperties);
@@ -52,11 +57,13 @@ namespace HttpWebServer.GUI
             }
             var output = this._engine.TakeUserInput(
                 validationResult.HTTPServerClassCommand, 
-                validationResult.InputForHTTPServerClass);
-
-
-            
-            
+                validationResult.InputForHTTPServerClass);           
+        }
+        private void browseSitePath_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.ShowDialog();
+            physicalPathInputField.Text = dialog.SelectedPath;
         }
         //Add every new UI controler here!
         private AllPoperties GetAllProperties(string buttonName)
@@ -65,9 +72,15 @@ namespace HttpWebServer.GUI
             HostType host = HostType.None;
             AllPoperties result = new AllPoperties();
             result.ButtonName = buttonName;
-            if((bool)localHostRadioButton.IsChecked)
+            if ((bool)serverHostRadioButton.IsChecked)
             {
                 host = HostType.LANIpAddress;
+                result.IpAddress = this._engine.LocalIpAddress;
+            }
+            else
+            {
+                host = HostType.LocalHost;
+                result.IpAddress = this._engine.LocalHostIp;
             }
             if((bool)protocolHTTPRadioButton.IsChecked)
             {
@@ -78,9 +91,10 @@ namespace HttpWebServer.GUI
             result.Port = portInputField.Text;
             result.WebSiteName = webServerNameField.Text;
             result.WebSitePath = physicalPathInputField.Text;
+            
             return result;
         }
 
-
+        
     }
 }

@@ -14,6 +14,8 @@ namespace HttpWebServer.Classes.Engine
     using System.Net.Sockets;
     using System.Text.RegularExpressions;
     using HttpWebServer.Classes.Actions;
+    using System.Net;
+
     public class Engine : IHttpEngine
     {
         private static IHttpEngine _instance;
@@ -21,8 +23,35 @@ namespace HttpWebServer.Classes.Engine
         private IHttpServer _server = null;
         private EngineActionsFactory _factoryMethod;
         private const int LastPortNumber = 65535;
+        private string _localIpAddress;
+        private const string localHostIp = "127.0.0.1";
         private BindingManager.BindingsConfigurationManager _bindingManager;
-        
+
+        public bool IsServerRunning
+        {
+            get
+            {
+                return this._isServerRunning;
+            }
+        }
+
+        public string LocalIpAddress
+        {
+            get
+            {
+                return this._localIpAddress;
+            }
+        }
+
+        public string LocalHostIp
+        {
+            get
+            {
+                return localHostIp;
+            }
+        }
+
+
         /// <summary>
         /// Singelton Pattern inplemented for the Engine
         /// </summary>
@@ -33,6 +62,7 @@ namespace HttpWebServer.Classes.Engine
             this._bindingManager = BindingManager.BindingsConfigurationManager.Instace();
             this._bindingManager.InitiateBindings();
             this._factoryMethod = new EngineActionsFactory(this._server);
+            this._localIpAddress = this.GetLocalIpAddress();
         }
         /// <summary>
         /// Accepts an input from the user and proccess it. This is the only visible method of Engine class
@@ -45,15 +75,6 @@ namespace HttpWebServer.Classes.Engine
 
             return result;
         }
-
-        private string ProcessUserInput(ServerCommandsEnums serverCommand, string input)
-        {
-            var action = this._factoryMethod.GetRequiredActionClass(serverCommand);
-            var resul = action.PerformAction(input);
-
-            return "";
-        }
-
         public static IHttpEngine Instance()
         {
             if (_instance == null)
@@ -62,15 +83,26 @@ namespace HttpWebServer.Classes.Engine
             }
             return _instance;
         }
-        public bool IsServerRunning
+#region Private methods
+        private string ProcessUserInput(ServerCommandsEnums serverCommand, string input)
         {
-            get
-            {
-                return this._isServerRunning;
-            }
-        }
-    
+            var action = this._factoryMethod.GetRequiredActionClass(serverCommand);
+            var resul = action.PerformAction(input);
 
+            return "";
+        }
+        private string GetLocalIpAddress()
+        {
+            string localIP;
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
+            }
+            return localIP;
+        }
+#endregion
     }
 
 }

@@ -11,7 +11,7 @@ namespace HttpWebServer.Interfaces
     {
         bool IsServerRunning { get; }
         string TakeUserInput(ServerCommandsEnums serverCommand, string input);
-        
-        
+        string LocalIpAddress { get; }
+        string LocalHostIp { get; }
     }
 }
