@@ -18,6 +18,8 @@ namespace HttpWebServer.Classes.XMLModels
     
     public class BindingParameters
     {
+        [XmlElement("Id")]
+        public int Id { get; set; }
         [XmlElement("webSiteName")]
         public string WebSiteName { get; set; }
         [XmlElement("port")]

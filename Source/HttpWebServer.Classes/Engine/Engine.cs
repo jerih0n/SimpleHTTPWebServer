@@ -15,6 +15,7 @@ namespace HttpWebServer.Classes.Engine
     using System.Text.RegularExpressions;
     using HttpWebServer.Classes.Actions;
     using System.Net;
+    using HttpWebServer.Shared.DataTransfer;
 
     public class Engine : IHttpEngine
     {
@@ -83,7 +84,13 @@ namespace HttpWebServer.Classes.Engine
             }
             return _instance;
         }
-#region Private methods
+        public Dictionary<int, WebsiteBingingParameters> GetAllBindings()
+        {
+         
+            return this._bindingManager.GetBindingsWithPortAsAKey();
+        }
+
+        #region Private methods
         private string ProcessUserInput(ServerCommandsEnums serverCommand, string input)
         {
             var action = this._factoryMethod.GetRequiredActionClass(serverCommand);
@@ -102,7 +109,7 @@ namespace HttpWebServer.Classes.Engine
             }
             return localIP;
         }
-#endregion
+        #endregion
     }
 
 }

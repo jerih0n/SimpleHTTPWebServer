@@ -29,14 +29,21 @@
                     <Label Content="Physical Path" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" FontSize="14" Width="102"/>
                     <TextBox x:Name="physicalPathInputField" HorizontalAlignment="Left" Height="23" Margin="142,280,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="280" FontSize="14" IsReadOnly="True"/>
                     <Button Name="createNewBinding" Content="Add New Binding" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" Width="141"  FontSize="14" Click="onButtonClick"/>
-                    <Label Content="Success" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="14" Width="467" Foreground="Green" Visibility="Hidden"/>
-                    <Label Content="Error" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="14" Width="467" Foreground="Red" Visibility="Hidden"/>
                     <Button x:Name= "browseSitePath" Content="Browse" HorizontalAlignment="Left" Margin="445,280,0,0" VerticalAlignment="Top" Width="75" Click="browseSitePath_Click" />
+                    <Label x:Name="successMessageLabel" Content="fffff" HorizontalAlignment="Left" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="16" Width="705" Foreground="Green" Visibility="Hidden"/>
+                    <Label x:Name="errorMessageLabel"  HorizontalAlignment="Left" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="16" Width="705" Foreground="Red" Visibility="Hidden"/>
 
                 </Grid>
             </TabItem>
             <TabItem Header="Websites" FontSize="14">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+
+                    <ListBox x:Name="websiteSectionListBox" HorizontalAlignment="Left" Height="254" Margin="10,39,0,0" VerticalAlignment="Top" Width="268" SelectionChanged="websiteSectionListBox_SelectionChanged">
+                    </ListBox>
+                    <Label Content="Id      Website name      Default Document" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.395,-0.207" Width="268"/>
+                    <Label x:Name="websiteTabSelectedItemName" HorizontalAlignment="Left" Margin="386,14,0,0" VerticalAlignment="Top" Width="218" Height="20"/>
+                </Grid>
+
             </TabItem>
             <TabItem Header="Security" FontSize="14">
                 <Grid Background="#FFE5E5E5"/>
@@ -47,7 +54,7 @@
 
 
         </TabControl>
-       
+
 
     </Grid>
 </Window>

@@ -22,6 +22,8 @@ namespace HttpWebServer.GUI
     using HttpWebServer.Shared.Enums;
     using HttpWebServer.Shared.DataTransfer;
     using System.Windows.Forms;
+    using HttpWebServer.GUI.UIHelpers;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -31,14 +33,19 @@ namespace HttpWebServer.GUI
         private string _webSiteName;
         private IValidatable _dataTransferClass;
         private ModelFactory _modelFactory;
-        
+        private ContentLodingHelper _loadingHelper;
         public MainWindow()
         {
+            InitializeComponent();
+
             this._engine = Engine.Instance();
             this._modelFactory = new ModelFactory();
-            //local lan Ip address     
-            InitializeComponent();
-            localIPaddressLabel.Content = string.Format("LAN IP - {0}",this._engine.LocalIpAddress);
+            this._loadingHelper = new ContentLodingHelper(this._engine);
+            //All loading of UI elements
+            #region Loading content
+            this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox); 
+            this._loadingHelper.LoadLANIPAddress(localIPaddressLabel);
+            #endregion
         }
 
         
@@ -53,11 +60,17 @@ namespace HttpWebServer.GUI
             HTTPValidationResult validationResult=  correctModel.Validate();
             if(!validationResult.IsValid)
             {
+                successMessageLabel.Visibility = Visibility.Hidden;
+                errorMessageLabel.Visibility = Visibility.Visible;
+                errorMessageLabel.Content = validationResult.Message;
                 return;
             }
             var output = this._engine.TakeUserInput(
                 validationResult.HTTPServerClassCommand, 
-                validationResult.InputForHTTPServerClass);           
+                validationResult.InputForHTTPServerClass);
+            errorMessageLabel.Visibility = Visibility.Hidden;
+            successMessageLabel.Visibility = Visibility.Visible;
+            successMessageLabel.Content = validationResult.Message;
         }
         private void browseSitePath_Click(object sender, RoutedEventArgs e)
         {
@@ -65,6 +78,7 @@ namespace HttpWebServer.GUI
             dialog.ShowDialog();
             physicalPathInputField.Text = dialog.SelectedPath;
         }
+        #region UI standalone methods
         //Add every new UI controler here!
         private AllPoperties GetAllProperties(string buttonName)
         {
@@ -93,8 +107,13 @@ namespace HttpWebServer.GUI
             result.WebSitePath = physicalPathInputField.Text;
             
             return result;
-        }
+        }     
+        #endregion
 
-        
+        private void websiteSectionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListItem item = (ListItem)sender;
+            
+        }
     }
 }

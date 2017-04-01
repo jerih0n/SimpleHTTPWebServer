@@ -74,6 +74,7 @@ namespace HttpWebServer.Classes.BindingManager
             foreach(var element in allWebsiteBindings.AllBindings)
             {
                 WebsiteBingingParameters siteParams = new WebsiteBingingParameters();
+                siteParams.Id = element.Id;
                 siteParams.IP = element.IPAddress;
                 siteParams.Port = element.Port;
                 siteParams.WebsiteName = element.WebSiteName;
@@ -101,6 +102,7 @@ namespace HttpWebServer.Classes.BindingManager
                 this._allWebsitesKeyPort.Add(siteParams.Port, siteParams);
                 this._allWebsitesKeyWebsiteName.Add(siteParams.WebsiteName, siteParams);
                 this._allWebsitesKeyPath.Add(siteParams.WebSiteServerPath, siteParams);
+                
             }
             return;
         }
@@ -150,8 +152,10 @@ namespace HttpWebServer.Classes.BindingManager
         }
         public bool AddNewBinding(string webSiteName, string hostingType, int port, string IPAddress,  string protocol, string path)
         {
+            var bindingId = this._allWebsitesKeyPort.Count + 1;
             var newBInding = new BindingParameters()
             {
+                Id = bindingId,
                 IPAddress = IPAddress,
                 HostType = hostingType,
                 Port = port,
@@ -169,14 +173,15 @@ namespace HttpWebServer.Classes.BindingManager
             {
                 serializer.Serialize(writter, bindig);
             }
-
-            this.isChanged = true;
+            this.ReInitiate();
             return true;
         }
         private void CreateDefaultXMLBindingFile(string directory)
         {
+            var bindingId = this._allWebsitesKeyPort.Count + 1;
             var defaultBindingParameter = new BindingParameters()
             {
+                Id = bindingId,
                 WebSiteName = "DefaultTemplate",
                 Port = 8080,
                 ServerPath = "",
