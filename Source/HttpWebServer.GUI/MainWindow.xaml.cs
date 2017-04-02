@@ -47,7 +47,11 @@ namespace HttpWebServer.GUI
         }
 
         
-
+        /// <summary>
+        /// Event handler for all actions invoked by clicking buttons that requires Engine to perform action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void onButtonClick(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.Button button = (System.Windows.Controls.Button)sender;
@@ -72,27 +76,21 @@ namespace HttpWebServer.GUI
             //reload the list items so new binding is added
             websiteSectionListBox.Items.Clear(); // clear the old items
             this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
+            //TODO: FIX THE BUG !!!!
         }
-        private void browseSitePath_Click(object sender, RoutedEventArgs e)
-        {
-            FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.ShowDialog();
-            physicalPathInputField.Text = dialog.SelectedPath;
-        }
+        
 
         private void websiteSectionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender;
-            var parts = listBox.SelectedItem.ToString()
+            System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender; 
+                var parts = listBox.SelectedItem.ToString()
                 .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            int iteimId = int.Parse(parts[0]);
-            this._loadingHelper.LoadWebsiteInformation(
-                iteimId, websiteBindingDetailedInformation, websiteTabSelectedItemName,
-                porftInfoemation, ipAddressInformation, protocolInfomration,
-                defaultDocumentInformation, websitePathInformation,
-                hostTypeInformation);
-
-
+                int iteimId = int.Parse(parts[0]);
+                this._loadingHelper.LoadWebsiteInformation(
+                    iteimId, websiteBindingDetailedInformation, websiteTabSelectedItemName,
+                    porftInfoemation, ipAddressInformation, protocolInfomration,
+                    defaultDocumentInformation, websitePathInformation,
+                    hostTypeInformation, siteIdInfomration);
         }
 
 
@@ -125,11 +123,32 @@ namespace HttpWebServer.GUI
             result.Port = portInputField.Text;
             result.WebSiteName = webServerNameField.Text;
             result.WebSitePath = physicalPathInputField.Text;
-            
+            result.DefaultFileIformation = (string)defaultDocumentInformation.Content;
+            result.WebSitePathIformation = (string)websitePathInformation.Content;
+            result.Id = (int)siteIdInfomration.Content;
+            result.IpAddressIformation = (string)ipAddressInformation.Content;
+            result.HostingIformation = (string)hostTypeInformation.Content;
+            result.PortIformation = Convert.ToString((int)porftInfoemation.Content);
+            result.ProtocolIformation = (string)protocolInfomration.Content;
+            result.WebSiteNameIformation = (string)websiteTabSelectedItemName.Content;
             return result;
-        }     
-        #endregion
+        }
 
-       
+        #endregion
+        #region EventHandlers For UI ONLY changes
+        private void changePathMenu_Click(object sender, RoutedEventArgs e)
+        {
+            this._loadingHelper.LoadServerPathOnChange(websitePathInformation);
+        }
+
+        private void changeDefaultDocument_Click(object sender, RoutedEventArgs e)
+        {
+            this._loadingHelper.LoadDefaultDocumentLabelOnChange(defaultDocumentInformation, (string)websitePathInformation.Content);
+        }
+        private void browseSitePath_Click(object sender, RoutedEventArgs e)
+        {
+            this._loadingHelper.LoadServerPathOnChange(websitePathInformation);
+        }
+#endregion
     }
 }

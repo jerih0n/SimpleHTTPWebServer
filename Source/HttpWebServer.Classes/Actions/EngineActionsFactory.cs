@@ -28,6 +28,7 @@ namespace HttpWebServer.Classes.Actions
                 case ServerCommandsEnums.StartServerOnDefaultPort: return new StartServer(this._httpServer);
                 case ServerCommandsEnums.StartServerOnCustomPort: return new StartServer(this._httpServer);
                 case ServerCommandsEnums.SaveNewBinding: return new SaveNewWebsiteBinding(this._httpServer);
+                case ServerCommandsEnums.UpdateExistingBinding: return new UpdateExistingBinding(this._httpServer);
             }
             return null;
         }

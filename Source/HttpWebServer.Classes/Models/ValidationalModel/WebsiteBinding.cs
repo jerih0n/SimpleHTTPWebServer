@@ -1,6 +1,6 @@
 ﻿
 
-namespace HttpWebServer.Classes.Models
+namespace HttpWebServer.Classes.Models.ValidationalModel
 {
     using System;
     using HttpWebServer.Shared.Enums;
@@ -20,15 +20,15 @@ namespace HttpWebServer.Classes.Models
         private const string InvalidPort = "Invalid port number! Port must be an integer number between 0 and 65535";
         private const string PathDoesNotExist = "Directory Path does not exist!";
         private const string PathAlreadyExist = "Website with that path already exist";
-        public const string HostTypeIsInvalid = "Invalid host type. Please select valid type of hosting";
-        public WebsiteBinding(string websiteName, HostType hostType, string port,string ipAddress, Protocol protocol, string webSidePath )
+        public const string HostTypeIsInvalid = "Invalid host type. Please select valid type of hosting";       
+        public WebsiteBinding(AllPoperties allProperties)
         {
-            this.WebSiteName = websiteName;
-            this.HostType = hostType;
-            this.Port = port;
-            this.Protocol = protocol;
-            this.WebsitePath = webSidePath;
-            this.IpAddress = ipAddress;
+            this.WebSiteName = allProperties.WebSiteName;
+            this.HostType = allProperties.Hosting;
+            this.Port = allProperties.Port;
+            this.Protocol = allProperties.Protocol;
+            this.WebsitePath = allProperties.WebSitePath ;
+            this.IpAddress = allProperties.IpAddress;
 
             this._validationResult = new HTTPValidationResult()
             {

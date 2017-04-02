@@ -10,5 +10,7 @@ namespace HttpWebServer.Shared
     {
         public const string AddNewBinding = "createNewBinding";
         public const string BrowseWebsitePaht = "browseSitePath";
+        public const string ChangeDefaultDocument = "changeDefaultDocument";
+        public const string WebSiteOptionsSaveChanges = "websiteOptionsSeveChanges";
     }
 }

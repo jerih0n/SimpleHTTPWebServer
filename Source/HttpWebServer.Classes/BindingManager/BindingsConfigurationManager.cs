@@ -23,7 +23,6 @@ namespace HttpWebServer.Classes.BindingManager
         private bool isChanged = true;
         private Dictionary<int, WebsiteBingingParameters> _allWebsitesKeyPort;
         private Dictionary<string, WebsiteBingingParameters> _allWebsitesKeyWebsiteName;
-        private Dictionary<string, WebsiteBingingParameters> _allWebsitesKeyPath;
         private Dictionary<int, WebsiteBingingParameters> _allWebsitesWithIdAsKey;
         private const string ServerConfigDirectoryName = "/ServerConfig/";
         protected BindingsConfigurationManager()
@@ -31,7 +30,6 @@ namespace HttpWebServer.Classes.BindingManager
             this._serializer = new XmlSerializer(typeof(Bindings));
             this._directory = Environment.CurrentDirectory + ServerConfigDirectoryName + BindingConfigFileName;
             this._allWebsitesKeyPort = new Dictionary<int, WebsiteBingingParameters>();
-            this._allWebsitesKeyPath = new Dictionary<string, WebsiteBingingParameters>();
             this._allWebsitesKeyWebsiteName = new Dictionary<string, WebsiteBingingParameters>();
             this._allWebsitesWithIdAsKey = new Dictionary<int, WebsiteBingingParameters>();
 
@@ -176,6 +174,11 @@ namespace HttpWebServer.Classes.BindingManager
             this.MadeNewRecordToAllDictionaries(newBindigParams);
             return true;
         }
+        public bool UpdateBindingInformation(string webSiteName, string hostingType, string port, string IPAddress, string protocol, string path, string defaultDocument, string id)
+        {
+            
+            return true;
+        }
         private void CreateDefaultXMLBindingFile(string directory)
         {
             var bindingId = this._allWebsitesKeyPort.Count + 1;
@@ -223,7 +226,6 @@ namespace HttpWebServer.Classes.BindingManager
         }
         private void MadeNewRecordToAllDictionaries(WebsiteBingingParameters value )
         {
-            this._allWebsitesKeyPath.Add(value.WebSiteServerPath, value);
             this._allWebsitesKeyPort.Add(value.Port, value);
             this._allWebsitesKeyWebsiteName.Add(value.WebsiteName, value);
             this._allWebsitesWithIdAsKey.Add(value.Id, value);

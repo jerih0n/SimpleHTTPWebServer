@@ -1,10 +1,12 @@
 ﻿using HttpWebServer.Interfaces;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+
 
 namespace HttpWebServer.GUI.UIHelpers
 {
@@ -32,22 +34,38 @@ namespace HttpWebServer.GUI.UIHelpers
             ipLabel.Content = string.Format("LAN IP - {0}", this._engine.LocalIpAddress);
         }
         public void LoadWebsiteInformation(int siteId,Grid informatioGrid, Label headerLebel
-            ,Label port, Label ipAddress, Label protocol, Label defaultDocument, Label websitePath, Label hostType)
+            ,Label port, Label ipAddress, Label protocol, Label defaultDocument, Label websitePath, Label hostType, Label siteIdLabel)
         {
             informatioGrid.Visibility = System.Windows.Visibility.Visible;
             
             var allSites = this._engine.GetAllBindings();
             var element = allSites[siteId];
             headerLebel.Content = element.WebsiteName;
-            port.Content = "Port: "+element.Port;
-            ipAddress.Content = "IP Address:" + element.IP;
-            protocol.Content = "Protocol: " + element.Protocol.ToString();
-            defaultDocument.Content = "Default doc.: " + element.DefaultDocument;
-            websitePath.Content = "Server path: " + element.WebSiteServerPath;
-            hostType.Content = "Host type: " + element.HostType.ToString();
-
-            
+            port.Content = element.Port;
+            ipAddress.Content = element.IP;
+            protocol.Content = element.Protocol.ToString();
+            defaultDocument.Content = element.DefaultDocument;
+            websitePath.Content = element.WebSiteServerPath;
+            hostType.Content = element.HostType.ToString();
+            siteIdLabel.Content = siteId;
         }
+        public void LoadDefaultDocumentLabelOnChange(Label defaultDocument, string serverPath)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.DefaultExt = ".html";
+            fileDialog.Filter = "HTML Start Index (*.html)|*.html";
+            var notPathStringLength = "Server path: ".Length;
+            var path = serverPath;
+            fileDialog.InitialDirectory = path;
+            fileDialog.ShowDialog();
+            defaultDocument.Content = fileDialog.SafeFileName;
             
+        }    
+        public void LoadServerPathOnChange(Label serverPathLabel)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.ShowDialog();
+            serverPathLabel.Content = dialog.SelectedPath;
+        }
     }
 }

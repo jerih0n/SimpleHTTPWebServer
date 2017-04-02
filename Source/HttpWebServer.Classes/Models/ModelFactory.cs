@@ -9,20 +9,20 @@ namespace HttpWebServer.Classes.Models
     using System.Text;
     using System.Threading.Tasks;
     using HttpWebServer.Shared;
+    using HttpWebServer.Classes.Models.ValidationalModel;
+
     public class ModelFactory
     {
         public IValidatable GetProperModel(AllPoperties allPoroperties)
         {
             //Refactor with Dictionary
-            
-            switch(allPoroperties.ButtonName)
+
+            switch (allPoroperties.ButtonName)
             {
                 case ActionButtonName.AddNewBinding: return
-                        new WebsiteBinding(allPoroperties.WebSiteName, 
-                        allPoroperties.Hosting, allPoroperties.Port,
-                        allPoroperties.IpAddress,
-                        allPoroperties.Protocol, 
-                        allPoroperties.WebSitePath);              
+                        new WebsiteBinding(allPoroperties);
+                case ActionButtonName.WebSiteOptionsSaveChanges:
+                    return new WebsiteSaveChanges(allPoroperties);  
                 default: return null;
             }
         }

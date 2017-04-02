@@ -38,21 +38,34 @@
             <TabItem Header="Websites" FontSize="14">
                 <Grid Background="#FFE5E5E5">
 
-                    <ListBox x:Name="websiteSectionListBox"     HorizontalAlignment="Left" Height="254" Margin="10,39,0,0" VerticalAlignment="Top" Width="268" SelectionChanged="websiteSectionListBox_SelectionChanged">
+                    <ListBox x:Name="websiteSectionListBox"     HorizontalAlignment="Left" Height="345" Margin="10,39,0,0" VerticalAlignment="Top" Width="268" SelectionChanged="websiteSectionListBox_SelectionChanged">
                     </ListBox>
                     <Label Content="Id      Website name      Default Document" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.395,-0.207" Width="268"/>
 
-                    <Grid x:Name="websiteBindingDetailedInformation" HorizontalAlignment="Left" Height="195" Margin="292,39,0,0" VerticalAlignment="Top" Width="402" Visibility="Hidden">
-                        <Label x:Name="websiteTabSelectedItemName" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" Width="234" Height="34">
-                            <Label Content="Label" Height="1" Width="0"/>
-                        </Label>
-                        <Label x:Name="porftInfoemation" Content="Port" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="178"/>
-                        <Label x:Name="ipAddressInformation" Content="IP:" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" Width="178"/>
-                        <Label x:Name="protocolInfomration" Content="Protocol" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Width="178"/>
-                        <Label x:Name="defaultDocumentInformation" Content="Default Doc." HorizontalAlignment="Left" Margin="193,58,0,0" VerticalAlignment="Top" Width="199"/>
-                        <Label x:Name="hostTypeInformation" Content="Host Type" HorizontalAlignment="Left" Margin="193,92,0,0" VerticalAlignment="Top" Width="188"/>
-                        <Label x:Name="websitePathInformation" Content="Label" HorizontalAlignment="Left" Margin="12,155,0,0" VerticalAlignment="Top" Width="380"/>
+                    <Grid x:Name="websiteBindingDetailedInformation" HorizontalAlignment="Left" Height="418" Margin="292,39,0,0" VerticalAlignment="Top" Width="402" Visibility="Visible">
+                        <Label x:Name="websiteTabSelectedItemName" HorizontalAlignment="Left" Margin="85,10,0,0" VerticalAlignment="Top" Width="234" Height="34"/>
+                        <Label x:Name="porftInfoemation" Content="Port" HorizontalAlignment="Left" Margin="49,176,0,0" VerticalAlignment="Top" Width="178"/>
+                        <Label x:Name="ipAddressInformation" Content="IP" HorizontalAlignment="Left" Margin="49,131,0,0" VerticalAlignment="Top" Width="178"/>
+                        <Label x:Name="protocolInfomration" Content="Protocol" HorizontalAlignment="Left" Margin="87,220,0,0" VerticalAlignment="Top" Width="178"/>
+                        <Label x:Name="defaultDocumentInformation" Content="Default Doc." HorizontalAlignment="Left" Margin="103,273,0,0" VerticalAlignment="Top" Width="191"/>
+                        <Label x:Name="hostTypeInformation" Content="Host Type" HorizontalAlignment="Left" Margin="87,84,0,0" VerticalAlignment="Top" Width="140"/>
+                        <Label x:Name="websitePathInformation" Content="Path" HorizontalAlignment="Left" Margin="62,320,0,0" VerticalAlignment="Top" Width="227" Height="28"/>
+                        <Button x:Name="websiteOptionsSeveChanges" Content="Save Changes" HorizontalAlignment="Left" Margin="62,371,0,0" VerticalAlignment="Top" Width="257" Click="onButtonClick"/>
+                        <Label Content="Id:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Host Type:" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top"/>
+                        <Label Content="IP:" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Port:" HorizontalAlignment="Left" Margin="10,176,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Protocol:" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.523,0.138"/>
+                        <Label Content="Default doc.:" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.466,1"/>
+                        <Label Content="Path" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top"/>
+                         
+                        <Label  x:Name="siteIdInfomration" Content="" HorizontalAlignment="Left" Margin="49,49,0,0" VerticalAlignment="Top" Width="54"/>
+                        <Button x:Name="changePathMenu" Content="Change" HorizontalAlignment="Left" Margin="317,330,0,0" VerticalAlignment="Top" Width="75" Click="changePathMenu_Click"/>
+                        <Button x:Name="changeDefaultDocument" Content="Select" HorizontalAlignment="Left" Margin="317,277,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.627,0.2" Click="changeDefaultDocument_Click"/>
+
                     </Grid>
+                    
+
                 </Grid>
 
             </TabItem>
