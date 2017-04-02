@@ -32,5 +32,7 @@ namespace HttpWebServer.Classes.XMLModels
         public string HostType { get; set; }
         [XmlElement("protocol")]
         public string Protocol { get; set; }
+        [XmlElement("defaultDocument")]
+        public string DefaultDocument { get; set; }
     }
 }

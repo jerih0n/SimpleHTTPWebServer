@@ -10,7 +10,7 @@ namespace HttpWebServer.Classes.BindingManager
     using HttpWebServer.Shared.DataTransfer;
     using HttpWebServer.Shared;
     using System.Xml;
-
+    using HttpWebServer.Shared.Enums;
     /// <summary>
     /// Class works with XML serialization/deserialization of XML. Implemetns Singelton. GetInstance
     /// </summary>
@@ -24,6 +24,7 @@ namespace HttpWebServer.Classes.BindingManager
         private Dictionary<int, WebsiteBingingParameters> _allWebsitesKeyPort;
         private Dictionary<string, WebsiteBingingParameters> _allWebsitesKeyWebsiteName;
         private Dictionary<string, WebsiteBingingParameters> _allWebsitesKeyPath;
+        private Dictionary<int, WebsiteBingingParameters> _allWebsitesWithIdAsKey;
         private const string ServerConfigDirectoryName = "/ServerConfig/";
         protected BindingsConfigurationManager()
         {
@@ -32,6 +33,7 @@ namespace HttpWebServer.Classes.BindingManager
             this._allWebsitesKeyPort = new Dictionary<int, WebsiteBingingParameters>();
             this._allWebsitesKeyPath = new Dictionary<string, WebsiteBingingParameters>();
             this._allWebsitesKeyWebsiteName = new Dictionary<string, WebsiteBingingParameters>();
+            this._allWebsitesWithIdAsKey = new Dictionary<int, WebsiteBingingParameters>();
 
         }
         /// <summary>
@@ -74,36 +76,18 @@ namespace HttpWebServer.Classes.BindingManager
             foreach(var element in allWebsiteBindings.AllBindings)
             {
                 WebsiteBingingParameters siteParams = new WebsiteBingingParameters();
+                siteParams.DefaultDocument = element.DefaultDocument;
                 siteParams.Id = element.Id;
                 siteParams.IP = element.IPAddress;
                 siteParams.Port = element.Port;
                 siteParams.WebsiteName = element.WebSiteName;
                 siteParams.WebSiteServerPath = element.ServerPath;
-                if (element.Protocol == ConstantBindingProperties.HTTPProtocol)
-                {
-                    siteParams.Protocol = Shared.Enums.Protocol.HTTP;
-                }
-                if(element.Protocol == ConstantBindingProperties.None)
-                {
-                    siteParams.Protocol = Shared.Enums.Protocol.None;
-                }
-                if(element.HostType == ConstantBindingProperties.LANIP)
-                {
-                    siteParams.HostType = Shared.Enums.HostType.LANIpAddress;
-                }
-                if(element.HostType == ConstantBindingProperties.Local)
-                {
-                    siteParams.HostType = Shared.Enums.HostType.LocalHost;
-                }
-                else
-                {
-                    siteParams.HostType = Shared.Enums.HostType.None;
-                }
-                this._allWebsitesKeyPort.Add(siteParams.Port, siteParams);
-                this._allWebsitesKeyWebsiteName.Add(siteParams.WebsiteName, siteParams);
-                this._allWebsitesKeyPath.Add(siteParams.WebSiteServerPath, siteParams);
+                this.ConvertEnumToString(siteParams, element.Protocol, element.HostType);
+                this.MadeNewRecordToAllDictionaries(siteParams);
                 
             }
+            fileStream.Close();
+            this.isChanged = false;
             return;
         }
         /// <summary>
@@ -142,6 +126,10 @@ namespace HttpWebServer.Classes.BindingManager
         {
             return this._allWebsitesKeyWebsiteName;
         }
+        public Dictionary<int, WebsiteBingingParameters> GetBindingsIdAsKey()
+        {
+            return this._allWebsitesWithIdAsKey;
+        }
         /// <summary>
         /// Invoke after every new binding. Re Initiate the collections 
         /// </summary>
@@ -150,7 +138,7 @@ namespace HttpWebServer.Classes.BindingManager
             this.isChanged = true;
             this.InitiateBindings();
         }
-        public bool AddNewBinding(string webSiteName, string hostingType, int port, string IPAddress,  string protocol, string path)
+        public bool AddNewBinding(string webSiteName, string hostingType, int port, string IPAddress,  string protocol, string path, string defaultDocument)
         {
             var bindingId = this._allWebsitesKeyPort.Count + 1;
             var newBInding = new BindingParameters()
@@ -161,7 +149,8 @@ namespace HttpWebServer.Classes.BindingManager
                 Port = port,
                 Protocol = protocol,
                 ServerPath = path,
-                WebSiteName = webSiteName
+                WebSiteName = webSiteName,
+                DefaultDocument = defaultDocument
             };
             var fileStream = new FileStream(this._directory, FileMode.Open);           
             Bindings bindig = (Bindings)this._serializer.Deserialize(fileStream);
@@ -173,7 +162,18 @@ namespace HttpWebServer.Classes.BindingManager
             {
                 serializer.Serialize(writter, bindig);
             }
-            this.ReInitiate();
+
+            var newBindigParams = new WebsiteBingingParameters()
+            {
+                Id = newBInding.Id,
+                DefaultDocument = newBInding.DefaultDocument,
+                WebSiteServerPath = newBInding.ServerPath,
+                Port = newBInding.Port,
+                IP = newBInding.IPAddress,
+                WebsiteName = newBInding.WebSiteName
+            };
+            this.ConvertEnumToString(newBindigParams, newBInding.Protocol, newBInding.HostType);
+            this.MadeNewRecordToAllDictionaries(newBindigParams);
             return true;
         }
         private void CreateDefaultXMLBindingFile(string directory)
@@ -187,7 +187,9 @@ namespace HttpWebServer.Classes.BindingManager
                 ServerPath = "",
                 IPAddress = "127.0.0.1",
                 Protocol = "HTTP",
-                HostType = "local"
+                HostType = "local",
+                DefaultDocument = "Not Selected"
+                
             };
             var defaultXMLModel = new Bindings()
             {
@@ -203,5 +205,28 @@ namespace HttpWebServer.Classes.BindingManager
             }
 
         }   
+        //Convert the Enums for Port and Protocol to string
+        private void ConvertEnumToString(WebsiteBingingParameters parameter, string protocol, string hostType )
+        {
+            if (protocol == ConstantBindingProperties.HTTPProtocol)
+            {
+                parameter.Protocol = Shared.Enums.Protocol.HTTP;
+            }
+            if (hostType == ConstantBindingProperties.LANIP)
+            {
+                parameter.HostType = Shared.Enums.HostType.LANIpAddress;
+            }
+            if (hostType == ConstantBindingProperties.Local)
+            {
+                parameter.HostType = Shared.Enums.HostType.LocalHost;
+            }
+        }
+        private void MadeNewRecordToAllDictionaries(WebsiteBingingParameters value )
+        {
+            this._allWebsitesKeyPath.Add(value.WebSiteServerPath, value);
+            this._allWebsitesKeyPort.Add(value.Port, value);
+            this._allWebsitesKeyWebsiteName.Add(value.WebsiteName, value);
+            this._allWebsitesWithIdAsKey.Add(value.Id, value);
+        }
     }
 }

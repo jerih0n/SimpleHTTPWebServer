@@ -38,10 +38,21 @@
             <TabItem Header="Websites" FontSize="14">
                 <Grid Background="#FFE5E5E5">
 
-                    <ListBox x:Name="websiteSectionListBox" HorizontalAlignment="Left" Height="254" Margin="10,39,0,0" VerticalAlignment="Top" Width="268" SelectionChanged="websiteSectionListBox_SelectionChanged">
+                    <ListBox x:Name="websiteSectionListBox"     HorizontalAlignment="Left" Height="254" Margin="10,39,0,0" VerticalAlignment="Top" Width="268" SelectionChanged="websiteSectionListBox_SelectionChanged">
                     </ListBox>
                     <Label Content="Id      Website name      Default Document" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.395,-0.207" Width="268"/>
-                    <Label x:Name="websiteTabSelectedItemName" HorizontalAlignment="Left" Margin="386,14,0,0" VerticalAlignment="Top" Width="218" Height="20"/>
+
+                    <Grid x:Name="websiteBindingDetailedInformation" HorizontalAlignment="Left" Height="195" Margin="292,39,0,0" VerticalAlignment="Top" Width="402" Visibility="Hidden">
+                        <Label x:Name="websiteTabSelectedItemName" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" Width="234" Height="34">
+                            <Label Content="Label" Height="1" Width="0"/>
+                        </Label>
+                        <Label x:Name="porftInfoemation" Content="Port" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="178"/>
+                        <Label x:Name="ipAddressInformation" Content="IP:" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" Width="178"/>
+                        <Label x:Name="protocolInfomration" Content="Protocol" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Width="178"/>
+                        <Label x:Name="defaultDocumentInformation" Content="Default Doc." HorizontalAlignment="Left" Margin="193,58,0,0" VerticalAlignment="Top" Width="199"/>
+                        <Label x:Name="hostTypeInformation" Content="Host Type" HorizontalAlignment="Left" Margin="193,92,0,0" VerticalAlignment="Top" Width="188"/>
+                        <Label x:Name="websitePathInformation" Content="Label" HorizontalAlignment="Left" Margin="12,155,0,0" VerticalAlignment="Top" Width="380"/>
+                    </Grid>
                 </Grid>
 
             </TabItem>

@@ -86,8 +86,8 @@ namespace HttpWebServer.Classes.Engine
         }
         public Dictionary<int, WebsiteBingingParameters> GetAllBindings()
         {
-         
-            return this._bindingManager.GetBindingsWithPortAsAKey();
+
+            return this._bindingManager.GetBindingsIdAsKey();
         }
 
         #region Private methods

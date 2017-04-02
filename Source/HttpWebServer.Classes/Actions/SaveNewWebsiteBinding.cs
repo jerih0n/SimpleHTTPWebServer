@@ -27,7 +27,7 @@ namespace HttpWebServer.Classes.Actions
             var result = bindingManager
                 .AddNewBinding(inputParams[0],
                 inputParams[1], int.Parse(inputParams[2]),
-                inputParams[3], inputParams[4],inputParams[5]);
+                inputParams[3], inputParams[4],inputParams[5],inputParams[6]);
             return result;
         }
     }

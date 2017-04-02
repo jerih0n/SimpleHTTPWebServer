@@ -16,6 +16,7 @@ namespace HttpWebServer.Shared.DataTransfer
         public int Port { get; set; }
         public HostType HostType { get; set; }
         public Protocol Protocol { get; set; }
+        public string DefaultDocument { get; set; }
         
     }
 }

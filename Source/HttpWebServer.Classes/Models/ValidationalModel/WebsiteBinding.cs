@@ -20,6 +20,7 @@ namespace HttpWebServer.Classes.Models
         private const string InvalidPort = "Invalid port number! Port must be an integer number between 0 and 65535";
         private const string PathDoesNotExist = "Directory Path does not exist!";
         private const string PathAlreadyExist = "Website with that path already exist";
+        public const string HostTypeIsInvalid = "Invalid host type. Please select valid type of hosting";
         public WebsiteBinding(string websiteName, HostType hostType, string port,string ipAddress, Protocol protocol, string webSidePath )
         {
             this.WebSiteName = websiteName;
@@ -42,6 +43,7 @@ namespace HttpWebServer.Classes.Models
         public Protocol Protocol { get; set; }
         public string WebsitePath { get; set; }
         public string IpAddress { get; set; }
+        
         public HTTPValidationResult Validate()
         {
             //Port should be Unique and must be a integer number
@@ -91,14 +93,21 @@ namespace HttpWebServer.Classes.Models
                 this._validationResult.Message = PathAlreadyExist;
                 return this._validationResult;
             }
+            //host type must be different thant none 
+            if(this.HostType == HostType.None)
+            {
+                this._validationResult.Message = HostTypeIsInvalid;
+                return this._validationResult;
+            }
             this._validationResult.Message = Success;
             this._validationResult.IsValid = true;
             this._validationResult.HTTPServerClassCommand = ServerCommandsEnums.SaveNewBinding;
             this._validationResult.InputForHTTPServerClass =
-                string.Format("{0}*{1}*{2}*{3}*{4}*{5}", 
+                string.Format("{0}*{1}*{2}*{3}*{4}*{5}*{6}", 
                 this.WebSiteName, this.HostType, 
                 this.Port,this.IpAddress, this.Protocol, 
-                this.WebsitePath);
+                this.WebsitePath
+                ,"Not Selected");
             return this._validationResult;
         }
     }

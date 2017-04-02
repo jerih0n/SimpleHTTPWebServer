@@ -30,8 +30,6 @@ namespace HttpWebServer.GUI
     public partial class MainWindow : Window
     {
         private IHttpEngine _engine;
-        private string _webSiteName;
-        private IValidatable _dataTransferClass;
         private ModelFactory _modelFactory;
         private ContentLodingHelper _loadingHelper;
         public MainWindow()
@@ -71,6 +69,9 @@ namespace HttpWebServer.GUI
             errorMessageLabel.Visibility = Visibility.Hidden;
             successMessageLabel.Visibility = Visibility.Visible;
             successMessageLabel.Content = validationResult.Message;
+            //reload the list items so new binding is added
+            websiteSectionListBox.Items.Clear(); // clear the old items
+            this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
         }
         private void browseSitePath_Click(object sender, RoutedEventArgs e)
         {
@@ -78,6 +79,24 @@ namespace HttpWebServer.GUI
             dialog.ShowDialog();
             physicalPathInputField.Text = dialog.SelectedPath;
         }
+
+        private void websiteSectionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender;
+            var parts = listBox.SelectedItem.ToString()
+                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            int iteimId = int.Parse(parts[0]);
+            this._loadingHelper.LoadWebsiteInformation(
+                iteimId, websiteBindingDetailedInformation, websiteTabSelectedItemName,
+                porftInfoemation, ipAddressInformation, protocolInfomration,
+                defaultDocumentInformation, websitePathInformation,
+                hostTypeInformation);
+
+
+        }
+
+
+
         #region UI standalone methods
         //Add every new UI controler here!
         private AllPoperties GetAllProperties(string buttonName)
@@ -91,10 +110,11 @@ namespace HttpWebServer.GUI
                 host = HostType.LANIpAddress;
                 result.IpAddress = this._engine.LocalIpAddress;
             }
-            else
+            if((bool)localHostRadioButton.IsChecked)
             {
                 host = HostType.LocalHost;
                 result.IpAddress = this._engine.LocalHostIp;
+
             }
             if((bool)protocolHTTPRadioButton.IsChecked)
             {
@@ -110,10 +130,6 @@ namespace HttpWebServer.GUI
         }     
         #endregion
 
-        private void websiteSectionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ListItem item = (ListItem)sender;
-            
-        }
+       
     }
 }
