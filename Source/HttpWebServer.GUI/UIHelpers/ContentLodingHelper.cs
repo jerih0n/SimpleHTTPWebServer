@@ -13,12 +13,19 @@ namespace HttpWebServer.GUI.UIHelpers
     public  class ContentLodingHelper
     {
         private IHttpEngine _engine;
+        
         public ContentLodingHelper(IHttpEngine engine)
         {
             this._engine = engine;
         }
+        /// <summary>
+        /// Load list of all binging in the list box in Website tab
+        /// </summary>
+        /// <param name="websiteTabListBox"></param>
         public  void LoadWebsiteBindingsForWebsiteTab(ListBox websiteTabListBox)
         {
+            
+            websiteTabListBox.Items.Clear();
             var allbindngs = this._engine.GetAllBindings();
             foreach (var element in allbindngs)
             {
@@ -29,10 +36,28 @@ namespace HttpWebServer.GUI.UIHelpers
 
             }
         }
+        
+        /// <summary>
+        /// Load the LAN ip address in Binding tab
+        /// </summary>
+        /// <param name="ipLabel"></param>
         public void LoadLANIPAddress(Label ipLabel)
         {
             ipLabel.Content = string.Format("LAN IP - {0}", this._engine.LocalIpAddress);
         }
+        /// <summary>
+        /// Load information on Selec for a selected website binding in Website tab
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <param name="informatioGrid"></param>
+        /// <param name="headerLebel"></param>
+        /// <param name="port"></param>
+        /// <param name="ipAddress"></param>
+        /// <param name="protocol"></param>
+        /// <param name="defaultDocument"></param>
+        /// <param name="websitePath"></param>
+        /// <param name="hostType"></param>
+        /// <param name="siteIdLabel"></param>
         public void LoadWebsiteInformation(int siteId,Grid informatioGrid, Label headerLebel
             ,Label port, Label ipAddress, Label protocol, Label defaultDocument, Label websitePath, Label hostType, Label siteIdLabel)
         {
@@ -49,6 +74,11 @@ namespace HttpWebServer.GUI.UIHelpers
             hostType.Content = element.HostType.ToString();
             siteIdLabel.Content = siteId;
         }
+        /// <summary>
+        /// Load the new selected default document on change in Website tab
+        /// </summary>
+        /// <param name="defaultDocument"></param>
+        /// <param name="serverPath"></param>
         public void LoadDefaultDocumentLabelOnChange(Label defaultDocument, string serverPath)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -61,11 +91,50 @@ namespace HttpWebServer.GUI.UIHelpers
             defaultDocument.Content = fileDialog.SafeFileName;
             
         }    
+        /// <summary>
+        /// Load the new Server path on change in Website Tab
+        /// </summary>
+        /// <param name="serverPathLabel"></param>
         public void LoadServerPathOnChange(Label serverPathLabel)
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
             dialog.ShowDialog();
             serverPathLabel.Content = dialog.SelectedPath;
+        }
+        /// <summary>
+        /// Load the selected server path in the input path field on Bindings Tab
+        /// </summary>
+        /// <param name="pathTextBox"></param>
+        public void LoadServerPathOnSelect(TextBox pathTextBox)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.ShowDialog();
+            pathTextBox.Text = dialog.SelectedPath;
+
+        }
+        /// <summary>
+        /// Unload all the UI controls in the Binding tab
+        /// </summary>
+        /// <param name="siteName"></param>
+        /// <param name="port"></param>
+        /// <param name="path"></param>
+        /// <param name="error"></param>
+        /// <param name="success"></param>
+        public void UnloadBindingControls(TextBox siteName, TextBox port, TextBox path, Label error, Label success )
+        {
+            siteName.Text = string.Empty;
+            port.Text = string.Empty;
+            path.Text = string.Empty;
+            error.Content = string.Empty;
+            success.Content = string.Empty;
+        }
+        /// <summary>
+        /// Make the visibility of website information grid hidden in the Website tab
+        /// </summary>
+        /// <param name="informationGrid"></param>
+        public void HideInformationGrid(Grid informationGrid)
+        {
+            informationGrid.Visibility = System.Windows.Visibility.Hidden;
         }
     }
 }

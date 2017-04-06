@@ -11,7 +11,6 @@ namespace HttpWebServer.Classes.Models
     public class AllPoperties
     {
         
-        public string ButtonName { get; set; }
         public int Id { get; set; }
         public string WebSiteName { get; set; }
         public string WebSitePath { get; set; }

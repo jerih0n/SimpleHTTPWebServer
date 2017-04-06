@@ -23,6 +23,8 @@ namespace HttpWebServer.GUI
     using HttpWebServer.Shared.DataTransfer;
     using System.Windows.Forms;
     using HttpWebServer.GUI.UIHelpers;
+    using Shared;
+    using HttpWebServer.Classes.Models.ValidationalModel;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -30,59 +32,26 @@ namespace HttpWebServer.GUI
     public partial class MainWindow : Window
     {
         private IHttpEngine _engine;
-        private ModelFactory _modelFactory;
         private ContentLodingHelper _loadingHelper;
+        private CurrentTab _currentTab;
         public MainWindow()
         {
             InitializeComponent();
 
             this._engine = Engine.Instance();
-            this._modelFactory = new ModelFactory();
             this._loadingHelper = new ContentLodingHelper(this._engine);
+            this._currentTab = CurrentTab.Server;
             //All loading of UI elements
-            #region Loading content
-            this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox); 
             this._loadingHelper.LoadLANIPAddress(localIPaddressLabel);
-            #endregion
         }
 
-        
-        /// <summary>
-        /// Event handler for all actions invoked by clicking buttons that requires Engine to perform action
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void onButtonClick(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Controls.Button button = (System.Windows.Controls.Button)sender;
-            var allProperties = this.GetAllProperties(button.Name);
-            
-            var correctModel = this._modelFactory.GetProperModel(allProperties);
-            //invoke is valid
-            HTTPValidationResult validationResult=  correctModel.Validate();
-            if(!validationResult.IsValid)
-            {
-                successMessageLabel.Visibility = Visibility.Hidden;
-                errorMessageLabel.Visibility = Visibility.Visible;
-                errorMessageLabel.Content = validationResult.Message;
-                return;
-            }
-            var output = this._engine.TakeUserInput(
-                validationResult.HTTPServerClassCommand, 
-                validationResult.InputForHTTPServerClass);
-            errorMessageLabel.Visibility = Visibility.Hidden;
-            successMessageLabel.Visibility = Visibility.Visible;
-            successMessageLabel.Content = validationResult.Message;
-            //reload the list items so new binding is added
-            websiteSectionListBox.Items.Clear(); // clear the old items
-            this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
-            //TODO: FIX THE BUG !!!!
-        }
-        
 
         private void websiteSectionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender; 
+            //Exception is catched when the Items.Clear(); method is invoked by the UI helper class
+            try
+            {
+                System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender;
                 var parts = listBox.SelectedItem.ToString()
                 .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 int iteimId = int.Parse(parts[0]);
@@ -91,51 +60,73 @@ namespace HttpWebServer.GUI
                     porftInfoemation, ipAddressInformation, protocolInfomration,
                     defaultDocumentInformation, websitePathInformation,
                     hostTypeInformation, siteIdInfomration);
+            }
+            catch(NullReferenceException)
+            {
+
+            }
+            
         }
 
 
 
         #region UI standalone methods
         //Add every new UI controler here!
-        private AllPoperties GetAllProperties(string buttonName)
+        //private AllPoperties GetAllProperties()
+        //{
+        //    Protocol protocol = Protocol.None;
+        //    HostType host = HostType.None;
+        //    AllPoperties result = new AllPoperties();
+        //    if ((bool)serverHostRadioButton.IsChecked)
+        //    {
+        //        host = HostType.LANIpAddress;
+        //        result.IpAddress = this._engine.LocalIpAddress;
+        //    }
+        //    if((bool)localHostRadioButton.IsChecked)
+        //    {
+        //        host = HostType.LocalHost;
+        //        result.IpAddress = this._engine.LocalHostIp;
+
+        //    }
+        //    if((bool)protocolHTTPRadioButton.IsChecked)
+        //    {
+        //        protocol = Protocol.HTTP;
+        //    }
+        //    result.Protocol = protocol;
+        //    result.Hosting = host;
+        //    result.Port = portInputField.Text;
+        //    result.WebSiteName = webServerNameField.Text;
+        //    result.WebSitePath = physicalPathInputField.Text;
+        //    result.DefaultFileIformation = (string)defaultDocumentInformation.Content;
+        //    result.WebSitePathIformation = (string)websitePathInformation.Content;
+        //    try
+        //    {
+        //        result.Id = (int)siteIdInfomration.Content;
+        //    }
+        //    catch(Exception)
+        //    {
+        //        result.Id = 0;
+        //    }
+        //    result.IpAddressIformation = (string)ipAddressInformation.Content;
+        //    result.HostingIformation = (string)hostTypeInformation.Content;
+        //    result.PortIformation = Convert.ToString((int)porftInfoemation.Content);
+        //    result.ProtocolIformation = (string)protocolInfomration.Content;
+        //    result.WebSiteNameIformation = (string)websiteTabSelectedItemName.Content;
+        //    return result;
+        //}
+
+        private void AddNewBingindSpecialAction(string message)
         {
-            Protocol protocol = Protocol.None;
-            HostType host = HostType.None;
-            AllPoperties result = new AllPoperties();
-            result.ButtonName = buttonName;
-            if ((bool)serverHostRadioButton.IsChecked)
-            {
-                host = HostType.LANIpAddress;
-                result.IpAddress = this._engine.LocalIpAddress;
-            }
-            if((bool)localHostRadioButton.IsChecked)
-            {
-                host = HostType.LocalHost;
-                result.IpAddress = this._engine.LocalHostIp;
-
-            }
-            if((bool)protocolHTTPRadioButton.IsChecked)
-            {
-                protocol = Protocol.HTTP;
-            }
-            result.Protocol = protocol;
-            result.Hosting = host;
-            result.Port = portInputField.Text;
-            result.WebSiteName = webServerNameField.Text;
-            result.WebSitePath = physicalPathInputField.Text;
-            result.DefaultFileIformation = (string)defaultDocumentInformation.Content;
-            result.WebSitePathIformation = (string)websitePathInformation.Content;
-            result.Id = (int)siteIdInfomration.Content;
-            result.IpAddressIformation = (string)ipAddressInformation.Content;
-            result.HostingIformation = (string)hostTypeInformation.Content;
-            result.PortIformation = Convert.ToString((int)porftInfoemation.Content);
-            result.ProtocolIformation = (string)protocolInfomration.Content;
-            result.WebSiteNameIformation = (string)websiteTabSelectedItemName.Content;
-            return result;
+            errorMessageLabel.Visibility = Visibility.Hidden;
+            successMessageLabel.Visibility = Visibility.Visible;
+            successMessageLabel.Content = message;
+            //reload the list items so new binding is added
+            websiteSectionListBox.Items.Clear(); // clear the old items
+            this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
         }
-
         #endregion
-        #region EventHandlers For UI ONLY changes
+
+        #region EventHandlers On Button Clicks
         private void changePathMenu_Click(object sender, RoutedEventArgs e)
         {
             this._loadingHelper.LoadServerPathOnChange(websitePathInformation);
@@ -147,8 +138,120 @@ namespace HttpWebServer.GUI
         }
         private void browseSitePath_Click(object sender, RoutedEventArgs e)
         {
-            this._loadingHelper.LoadServerPathOnChange(websitePathInformation);
+            this._loadingHelper.LoadServerPathOnSelect(physicalPathInputField);
         }
-#endregion
+        /// <summary>
+        /// Creates the new bingins
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createNewBinding_Click(object sender, RoutedEventArgs e)
+        {
+            var properties = new AllPoperties()
+            {
+                WebSiteName = webServerNameField.Text,
+                Port = portInputField.Text,
+                WebSitePath = physicalPathInputField.Text,
+                 
+            };
+            if ((bool)serverHostRadioButton.IsChecked)
+            {
+                properties.Hosting = HostType.LANIpAddress;
+                properties.IpAddress = this._engine.LocalIpAddress;
+            }
+            if ((bool)localHostRadioButton.IsChecked)
+            {
+                properties.Hosting = HostType.LocalHost;
+                properties.IpAddress = this._engine.LocalHostIp;
+
+            }
+            if ((bool)protocolHTTPRadioButton.IsChecked)
+            {
+                properties.Protocol = Protocol.HTTP;
+            }
+            
+            var model = new WebsiteBinding(properties);
+            var validationResult = model.Validate();
+            if(!validationResult.IsValid)
+            {
+                successMessageLabel.Visibility = Visibility.Hidden;
+                errorMessageLabel.Visibility = Visibility.Visible;
+                errorMessageLabel.Content = validationResult.Message;
+                return;               
+            }
+            var output = this._engine.TakeUserInput(
+                    validationResult.HTTPServerClassCommand,
+                    validationResult.InputForHTTPServerClass);
+            successMessageLabel.Visibility = Visibility.Visible;
+            errorMessageLabel.Visibility = Visibility.Hidden;
+            successMessageLabel.Content = validationResult.Message;
+        }
+
+        private void websiteOptionsSeveChanges_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// Load and/or unload UI elements and the code behind values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ServeTabContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(ServerTab.IsSelected)
+            {
+               
+                this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
+                this._loadingHelper.UnloadBindingControls(webServerNameField,
+                    portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
+                this._currentTab = CurrentTab.Server;
+            }
+            else if(BindingTab.IsSelected)
+            {
+                
+                this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
+                this._currentTab = CurrentTab.Bindings;
+            }
+            else if(WebsitesTab.IsSelected)
+            {
+                this._currentTab = CurrentTab.Websites;
+
+                if (this._currentTab != CurrentTab.Websites)
+                {
+                    this._loadingHelper.UnloadBindingControls(webServerNameField,
+                    portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
+                    //load the list box
+
+                    this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
+                }
+                //Unload all UI controls from the Binding tab
+                
+                
+            }
+            else if(SecurityTab.IsSelected)
+            {
+               
+                this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
+                this._loadingHelper.UnloadBindingControls(webServerNameField,
+                    portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
+                this._currentTab = CurrentTab.Security;
+            }
+            else if(HelpTab.IsSelected)
+            {
+               
+                this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
+                this._loadingHelper.UnloadBindingControls(webServerNameField,
+                    portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
+                this._currentTab = CurrentTab.Help;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        #endregion
+
+
     }
 }
