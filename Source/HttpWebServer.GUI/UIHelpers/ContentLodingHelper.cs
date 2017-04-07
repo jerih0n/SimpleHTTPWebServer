@@ -136,5 +136,23 @@ namespace HttpWebServer.GUI.UIHelpers
         {
             informationGrid.Visibility = System.Windows.Visibility.Hidden;
         }
+        public void LoadWebsitesOnServerTab(ListBox serverTabListBox)
+        {
+            var allWebsites = this._engine.GetAllBindings();
+            foreach(var element in allWebsites)
+            {
+                string message = string.Format("{0}      {1}     {2}     {3}",
+                    element.Value.WebsiteName,element.Value.Port, 
+                    element.Value.IP, element.Value.DefaultDocument, 
+                    element.Value.Protocol);
+                serverTabListBox.Items.Add(message);
+            }
+
+        }
+        public void UnloadWebsitesOnServerTab(ListBox serverTabListBox)
+        {
+            serverTabListBox.Items.Clear();
+        }
+      
     }
 }

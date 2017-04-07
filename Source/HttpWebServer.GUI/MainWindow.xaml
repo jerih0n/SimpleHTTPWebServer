@@ -9,7 +9,28 @@
     <Grid>
         <TabControl x:Name="ServeTabContainer" HorizontalAlignment="Left" Height="550" VerticalAlignment="Top" Width="725" SelectionChanged="ServeTabContainer_SelectionChanged">
             <TabItem   x:Name="ServerTab" Header="Server" FontSize="20">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="serverTabList" HorizontalAlignment="Left" Height="215" Margin="10,54,0,0" VerticalAlignment="Top" Width="476" SelectionChanged="serverTabList_SelectionChanged" FontSize="12"/>
+                    <Label x:Name="selectedSiteId" Content="dd" HorizontalAlignment="Left" Margin="317,288,0,0" VerticalAlignment="Top" Height="22" Visibility="Hidden" Width="66"/>
+                    <Grid x:Name="serverActionsGrid" HorizontalAlignment="Left" Height="207" Margin="486,54,0,0" VerticalAlignment="Top" Width="196">
+                        <Button x:Name="startServer" Content="Start" HorizontalAlignment="Left" Margin="28,10,0,0" VerticalAlignment="Top" Width="127" Click="startServer_Click" Height="52" RenderTransformOrigin="0.424,0.558"/>
+                        <Button x:Name="stopServer" Content="Stop" HorizontalAlignment="Left" Margin="28,73,0,0" VerticalAlignment="Top" Width="127" Click="stopServer_Click" Height="52"/>
+                        <Button x:Name="restartServer" Content="Restart" HorizontalAlignment="Left" Margin="28,135,0,0" VerticalAlignment="Top" Width="127" Click="restartServer_Click" Height="62"/>
+                    </Grid>
+                    <ListBox x:Name="serverRequestResponeList" HorizontalAlignment="Left" Height="129" Margin="10,310,0,0" VerticalAlignment="Top" Width="672" FontSize="10"/>
+                    <Label Content="Server Main Control Panel" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="264"/>
+                    <Label Content="Server Version 1.0" HorizontalAlignment="Left" Margin="10,439,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="566,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106">
+                        <Hyperlink x:Name="websiteNav" FontSize="16" RequestNavigate="websiteNav_RequestNavigate" NavigateUri="https://botevweb.wordpress.com/">Dimitar Botev</Hyperlink>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="590,452,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.5,0.5" FontFamily="16">
+                        
+                        <Hyperlink  x:Name="sourceControlNav"  FontSize="14" RequestNavigate="sourceControlNav_RequestNavigate" NavigateUri="https://github.com/jerih0n/SimpleHTTPWebServer">Here</Hyperlink>
+                    </TextBlock>
+                    <Label Content="See the source code" HorizontalAlignment="Left" Margin="455,445,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label Content="Author:" HorizontalAlignment="Left" Margin="502,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontSize="16"/>
+
+                </Grid>
             </TabItem>
             <TabItem  x:Name="BindingTab" Header="Binding" FontSize="14">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,0,3">
@@ -58,13 +79,13 @@
                         <Label Content="Protocol:" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.523,0.138"/>
                         <Label Content="Default doc.:" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.466,1"/>
                         <Label Content="Path" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top"/>
-                         
+
                         <Label  x:Name="siteIdInfomration" Content="" HorizontalAlignment="Left" Margin="49,49,0,0" VerticalAlignment="Top" Width="54"/>
                         <Button x:Name="changePathMenu" Content="Change" HorizontalAlignment="Left" Margin="317,330,0,0" VerticalAlignment="Top" Width="75" Click="changePathMenu_Click"/>
                         <Button x:Name="changeDefaultDocument" Content="Select" HorizontalAlignment="Left" Margin="317,277,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.627,0.2" Click="changeDefaultDocument_Click"/>
 
                     </Grid>
-                    
+
 
                 </Grid>
 

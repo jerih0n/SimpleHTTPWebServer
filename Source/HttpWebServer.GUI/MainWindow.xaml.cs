@@ -33,22 +33,29 @@ namespace HttpWebServer.GUI
     {
         private IHttpEngine _engine;
         private ContentLodingHelper _loadingHelper;
-        private CurrentTab _currentTab;
+        private bool _isWebsiteBindingListChange;
+        private bool _isWebsiteServerListChange;
         public MainWindow()
         {
             InitializeComponent();
 
             this._engine = Engine.Instance();
             this._loadingHelper = new ContentLodingHelper(this._engine);
-            this._currentTab = CurrentTab.Server;
+            this._isWebsiteBindingListChange = true;
+            this._isWebsiteServerListChange = true;
             //All loading of UI elements
             this._loadingHelper.LoadLANIPAddress(localIPaddressLabel);
         }
 
 
+
+
+
+        #region EventHandler from GUI
         private void websiteSectionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Exception is catched when the Items.Clear(); method is invoked by the UI helper class
+
             try
             {
                 System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender;
@@ -60,73 +67,13 @@ namespace HttpWebServer.GUI
                     porftInfoemation, ipAddressInformation, protocolInfomration,
                     defaultDocumentInformation, websitePathInformation,
                     hostTypeInformation, siteIdInfomration);
+                this._isWebsiteBindingListChange = false;
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
-
+                this._isWebsiteBindingListChange = false;
             }
-            
         }
-
-
-
-        #region UI standalone methods
-        //Add every new UI controler here!
-        //private AllPoperties GetAllProperties()
-        //{
-        //    Protocol protocol = Protocol.None;
-        //    HostType host = HostType.None;
-        //    AllPoperties result = new AllPoperties();
-        //    if ((bool)serverHostRadioButton.IsChecked)
-        //    {
-        //        host = HostType.LANIpAddress;
-        //        result.IpAddress = this._engine.LocalIpAddress;
-        //    }
-        //    if((bool)localHostRadioButton.IsChecked)
-        //    {
-        //        host = HostType.LocalHost;
-        //        result.IpAddress = this._engine.LocalHostIp;
-
-        //    }
-        //    if((bool)protocolHTTPRadioButton.IsChecked)
-        //    {
-        //        protocol = Protocol.HTTP;
-        //    }
-        //    result.Protocol = protocol;
-        //    result.Hosting = host;
-        //    result.Port = portInputField.Text;
-        //    result.WebSiteName = webServerNameField.Text;
-        //    result.WebSitePath = physicalPathInputField.Text;
-        //    result.DefaultFileIformation = (string)defaultDocumentInformation.Content;
-        //    result.WebSitePathIformation = (string)websitePathInformation.Content;
-        //    try
-        //    {
-        //        result.Id = (int)siteIdInfomration.Content;
-        //    }
-        //    catch(Exception)
-        //    {
-        //        result.Id = 0;
-        //    }
-        //    result.IpAddressIformation = (string)ipAddressInformation.Content;
-        //    result.HostingIformation = (string)hostTypeInformation.Content;
-        //    result.PortIformation = Convert.ToString((int)porftInfoemation.Content);
-        //    result.ProtocolIformation = (string)protocolInfomration.Content;
-        //    result.WebSiteNameIformation = (string)websiteTabSelectedItemName.Content;
-        //    return result;
-        //}
-
-        private void AddNewBingindSpecialAction(string message)
-        {
-            errorMessageLabel.Visibility = Visibility.Hidden;
-            successMessageLabel.Visibility = Visibility.Visible;
-            successMessageLabel.Content = message;
-            //reload the list items so new binding is added
-            websiteSectionListBox.Items.Clear(); // clear the old items
-            this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
-        }
-        #endregion
-
-        #region EventHandlers On Button Clicks
         private void changePathMenu_Click(object sender, RoutedEventArgs e)
         {
             this._loadingHelper.LoadServerPathOnChange(websitePathInformation);
@@ -185,11 +132,13 @@ namespace HttpWebServer.GUI
             successMessageLabel.Visibility = Visibility.Visible;
             errorMessageLabel.Visibility = Visibility.Hidden;
             successMessageLabel.Content = validationResult.Message;
+            this._isWebsiteBindingListChange = true;
+            this._isWebsiteServerListChange = true;
         }
 
         private void websiteOptionsSeveChanges_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO :: !!!
         }
         /// <summary>
         /// Load and/or unload UI elements and the code behind values
@@ -204,50 +153,85 @@ namespace HttpWebServer.GUI
                 this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
                 this._loadingHelper.UnloadBindingControls(webServerNameField,
                     portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
-                this._currentTab = CurrentTab.Server;
+                if(this._isWebsiteServerListChange)
+                {
+                    this._loadingHelper.UnloadWebsitesOnServerTab(serverTabList);
+                    this._loadingHelper.LoadWebsitesOnServerTab(serverTabList);
+                    this._isWebsiteServerListChange = false;
+                }
+                
+                
             }
             else if(BindingTab.IsSelected)
             {
-                
+                this.selectedSiteId.Content = null;
                 this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
-                this._currentTab = CurrentTab.Bindings;
             }
             else if(WebsitesTab.IsSelected)
             {
-                this._currentTab = CurrentTab.Websites;
-
-                if (this._currentTab != CurrentTab.Websites)
+                this.selectedSiteId.Content = null;
+                if (this._isWebsiteBindingListChange)
                 {
                     this._loadingHelper.UnloadBindingControls(webServerNameField,
                     portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
-                    //load the list box
-
                     this._loadingHelper.LoadWebsiteBindingsForWebsiteTab(websiteSectionListBox);
+                    this._isWebsiteBindingListChange = false;
                 }
+                
+                
                 //Unload all UI controls from the Binding tab
                 
                 
             }
             else if(SecurityTab.IsSelected)
             {
-               
+                this.selectedSiteId.Content = null;
                 this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
                 this._loadingHelper.UnloadBindingControls(webServerNameField,
                     portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
-                this._currentTab = CurrentTab.Security;
+                
             }
             else if(HelpTab.IsSelected)
             {
-               
+                this.selectedSiteId.Content = null;
                 this._loadingHelper.HideInformationGrid(websiteBindingDetailedInformation);
                 this._loadingHelper.UnloadBindingControls(webServerNameField,
                     portInputField, physicalPathInputField, errorMessageLabel, successMessageLabel);
-                this._currentTab = CurrentTab.Help;
+                
             }
             else
             {
                 return;
             }
+        }
+        private void serverTabList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            System.Windows.Controls.ListBox listBox = (System.Windows.Controls.ListBox)sender;
+            selectedSiteId.Content = listBox.SelectedIndex + 1;
+        }
+        private void startServer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void restartServer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void stopServer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+       
+        private void sourceControlNav_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/jerih0n/SimpleHTTPWebServer");
+        }
+
+        private void websiteNav_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://botevweb.wordpress.com/");
         }
 
         #endregion
