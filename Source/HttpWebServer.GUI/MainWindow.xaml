@@ -51,9 +51,8 @@
                     <TextBox x:Name="physicalPathInputField" HorizontalAlignment="Left" Height="23" Margin="142,280,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="280" FontSize="14" IsReadOnly="True"/>
                     <Button Name="createNewBinding" Content="Add New Binding" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" Width="141"  FontSize="14" Click="createNewBinding_Click"/>
                     <Button x:Name= "browseSitePath" Content="Browse" HorizontalAlignment="Left" Margin="445,280,0,0" VerticalAlignment="Top" Width="75" Click="browseSitePath_Click" />
-                    <Label x:Name="successMessageLabel" Content="fffff" HorizontalAlignment="Left" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="16" Width="705" Foreground="Green" Visibility="Hidden"/>
+                    <Label x:Name="successMessageLabel"  HorizontalAlignment="Left" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="16" Width="705" Foreground="Green" Visibility="Hidden"/>
                     <Label x:Name="errorMessageLabel"  HorizontalAlignment="Left" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.12" FontSize="16" Width="705" Foreground="Red" Visibility="Hidden"/>
-
                 </Grid>
             </TabItem>
             <TabItem x:Name="WebsitesTab" Header="Websites" FontSize="14">
@@ -63,7 +62,7 @@
                     </ListBox>
                     <Label Content="Id      Website name      Default Document" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.395,-0.207" Width="268"/>
 
-                    <Grid x:Name="websiteBindingDetailedInformation" HorizontalAlignment="Left" Height="418" Margin="292,39,0,0" VerticalAlignment="Top" Width="402" Visibility="Visible">
+                    <Grid x:Name="websiteBindingDetailedInformation" HorizontalAlignment="Left" Height="404" Margin="292,39,0,0" VerticalAlignment="Top" Width="402" Visibility="Visible">
                         <Label x:Name="websiteTabSelectedItemName" HorizontalAlignment="Left" Margin="85,10,0,0" VerticalAlignment="Top" Width="234" Height="34"/>
                         <Label x:Name="porftInfoemation" Content="Port" HorizontalAlignment="Left" Margin="49,176,0,0" VerticalAlignment="Top" Width="178"/>
                         <Label x:Name="ipAddressInformation" Content="IP" HorizontalAlignment="Left" Margin="49,131,0,0" VerticalAlignment="Top" Width="178"/>
@@ -85,6 +84,7 @@
                         <Button x:Name="changeDefaultDocument" Content="Select" HorizontalAlignment="Left" Margin="317,277,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.627,0.2" Click="changeDefaultDocument_Click"/>
 
                     </Grid>
+                    <Label  x:Name="saveChangesResult" Content="" HorizontalAlignment="Left" Margin="10,443,0,0" VerticalAlignment="Top" Width="684"/>
 
 
                 </Grid>

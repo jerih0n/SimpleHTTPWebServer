@@ -37,12 +37,12 @@ namespace HttpWebServer.Classes.Models.ValidationalModel
                 InputForHTTPServerClass = "error"
             };
         }
-        public string WebSiteName { get; set; }
-        public HostType HostType { get; set; }
-        public string Port { get; set; }
-        public Protocol Protocol { get; set; }
-        public string WebsitePath { get; set; }
-        public string IpAddress { get; set; }
+        private string WebSiteName { get; set; }
+        private HostType HostType { get; set; }
+        private string Port { get; set; }
+        private Protocol Protocol { get; set; }
+        private string WebsitePath { get; set; }
+        private string IpAddress { get; set; }
         
         public HTTPValidationResult Validate()
         {

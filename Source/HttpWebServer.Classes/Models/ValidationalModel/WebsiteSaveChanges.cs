@@ -19,19 +19,19 @@ namespace HttpWebServer.Classes.Models.ValidationalModel
             this.HostType = allProperties.HostingIformation;
             this.Port = allProperties.PortIformation;
             this.Protocol = allProperties.ProtocolIformation;
-            this.WebsitePath = allProperties.WebSitePathIformation;
-            this.DefaultDocument = allProperties.DefaultFileIformation;
+            this.WebsitePath = allProperties.WebSitePathIformation ?? "Not Selected";
+            this.DefaultDocument = allProperties.DefaultFileIformation ?? "Not Selected";
             this.IpAddress = allProperties.IpAddressIformation;
 
         }
-        public string Id { get; set; }
-        public string WebSiteName { get; set; }
-        public string HostType { get; set; }
-        public string Port { get; set; }
-        public string Protocol { get; set; }
-        public string WebsitePath { get; set; }
-        public string IpAddress { get; set; }
-        public string DefaultDocument { get; set; }
+        private string Id { get; set; }
+        private string WebSiteName { get; set; }
+        private string HostType { get; set; }
+        private string Port { get; set; }
+        private string Protocol { get; set; }
+        private string WebsitePath { get; set; }
+        private string IpAddress { get; set; }
+        private string DefaultDocument { get; set; }
 
         public HTTPValidationResult Validate()
         {

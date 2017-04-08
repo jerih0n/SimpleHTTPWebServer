@@ -138,7 +138,30 @@ namespace HttpWebServer.GUI
 
         private void websiteOptionsSeveChanges_Click(object sender, RoutedEventArgs e)
         {
-            //TODO :: !!!
+            var properties = new AllPoperties()
+            {
+                Id = (int)siteIdInfomration.Content,
+                WebSiteNameIformation = (string)websiteTabSelectedItemName.Content,
+                PortIformation = porftInfoemation.Content.ToString(),
+                ProtocolIformation = (string)protocolInfomration.Content,
+                HostingIformation = (string)hostTypeInformation.Content,
+                IpAddressIformation = (string)ipAddressInformation.Content,
+                DefaultFileIformation = (string)defaultDocumentInformation.Content,
+                WebSitePathIformation = (string)websitePathInformation.Content
+            };
+            var model = new WebsiteSaveChanges(properties);
+            var validationResult = model.Validate();
+            if(!validationResult.IsValid)
+            {
+                saveChangesResult.Content = validationResult.Message;
+                saveChangesResult.Foreground = new SolidColorBrush(Colors.Red);
+                return;
+            }
+            saveChangesResult.Content = validationResult.Message;
+            saveChangesResult.Foreground = new SolidColorBrush(Colors.Green);
+            var serverResult = this._engine.TakeUserInput(
+                validationResult.HTTPServerClassCommand,
+                validationResult.InputForHTTPServerClass);
         }
         /// <summary>
         /// Load and/or unload UI elements and the code behind values

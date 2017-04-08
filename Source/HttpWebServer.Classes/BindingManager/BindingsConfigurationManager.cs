@@ -151,14 +151,14 @@ namespace HttpWebServer.Classes.BindingManager
                 DefaultDocument = defaultDocument
             };
             var fileStream = new FileStream(this._directory, FileMode.Open);           
-            Bindings bindig = (Bindings)this._serializer.Deserialize(fileStream);
-            bindig.AllBindings.Add(newBInding);
+            Bindings binding = (Bindings)this._serializer.Deserialize(fileStream);
+            binding.AllBindings.Add(newBInding);
             var directory = Environment.CurrentDirectory + ServerConfigDirectoryName + BindingConfigFileName;
-            var serializer = new XmlSerializer(bindig.GetType());
+            var serializer = new XmlSerializer(binding.GetType());
             fileStream.Close();
             using (var writter = XmlWriter.Create(directory))
             {
-                serializer.Serialize(writter, bindig);
+                serializer.Serialize(writter, binding);
             }
 
             var newBindigParams = new WebsiteBingingParameters()
@@ -176,7 +176,33 @@ namespace HttpWebServer.Classes.BindingManager
         }
         public bool UpdateBindingInformation(string webSiteName, string hostingType, string port, string IPAddress, string protocol, string path, string defaultDocument, string id)
         {
-            
+            var siteId = int.Parse(id);
+
+            var fileStream = new FileStream(this._directory, FileMode.Open);
+            Bindings binding = (Bindings)this._serializer.Deserialize(fileStream);
+            var givenBinding = binding.AllBindings.Find(x => x.Id == siteId);
+            givenBinding.WebSiteName = webSiteName;
+            givenBinding.ServerPath = path;
+            givenBinding.Port = int.Parse(port);
+            givenBinding.DefaultDocument = defaultDocument;
+            givenBinding.HostType = hostingType;
+            givenBinding.Protocol = protocol;
+            givenBinding.IPAddress = IPAddress;
+            var directory = Environment.CurrentDirectory + ServerConfigDirectoryName + BindingConfigFileName;
+            var serializer = new XmlSerializer(binding.GetType());
+            fileStream.Close();
+            using (var writter = XmlWriter.Create(directory))
+            {
+                serializer.Serialize(writter, binding);
+            }
+            //update the information in the UI
+            var laylerModel = this._allWebsitesWithIdAsKey[siteId];
+            laylerModel.WebsiteName = webSiteName;
+            laylerModel.WebSiteServerPath = path;
+            laylerModel.Port = int.Parse(port);
+            laylerModel.DefaultDocument = defaultDocument;
+            laylerModel.IP = IPAddress;
+            this.ConvertEnumToString(laylerModel, protocol, hostingType);
             return true;
         }
         private void CreateDefaultXMLBindingFile(string directory)
