@@ -13,7 +13,7 @@ namespace HttpWebServer.GUI.UIHelpers
     public  class ContentLodingHelper
     {
         private IHttpEngine _engine;
-        
+        private const int _maxElementsInServerLogListBox = 100;
         public ContentLodingHelper(IHttpEngine engine)
         {
             this._engine = engine;
@@ -141,7 +141,7 @@ namespace HttpWebServer.GUI.UIHelpers
             var allWebsites = this._engine.GetAllBindings();
             foreach(var element in allWebsites)
             {
-                string message = string.Format("{0}      {1}     {2}     {3}",
+                string message = string.Format("{0} {1} {2} {3} {4}",
                     element.Value.WebsiteName,element.Value.Port, 
                     element.Value.IP, element.Value.DefaultDocument, 
                     element.Value.Protocol);
@@ -152,6 +152,15 @@ namespace HttpWebServer.GUI.UIHelpers
         public void UnloadWebsitesOnServerTab(ListBox serverTabListBox)
         {
             serverTabListBox.Items.Clear();
+        }
+        public void AddNewItemToServeRecentNodesList(ListBox serverRecentNodesList,string newElement)
+        {
+            //Search and clear the newElement list if the list items are too may 
+            if(serverRecentNodesList.Items.Count == _maxElementsInServerLogListBox)
+            {
+                serverRecentNodesList.Items.Clear();
+            }
+            serverRecentNodesList.Items.Add(newElement);
         }
       
     }

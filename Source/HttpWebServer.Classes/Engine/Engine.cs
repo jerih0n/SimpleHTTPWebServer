@@ -26,7 +26,9 @@ namespace HttpWebServer.Classes.Engine
         private const int LastPortNumber = 65535;
         private string _localIpAddress;
         private const string localHostIp = "127.0.0.1";
+        private Dictionary<int, IHttpServer> _allRunningServers; // key is the port !
         private BindingManager.BindingsConfigurationManager _bindingManager;
+        
 
         public bool IsServerRunning
         {
@@ -59,11 +61,13 @@ namespace HttpWebServer.Classes.Engine
         protected Engine()
         {
             // we are declaring a IHttpServer class running on the default port
+            this._allRunningServers = new Dictionary<int, IHttpServer>();
             this._server = new HttpServer();
             this._bindingManager = BindingManager.BindingsConfigurationManager.Instace();
             this._bindingManager.InitiateBindings();
             this._factoryMethod = new EngineActionsFactory(this._server);
             this._localIpAddress = this.GetLocalIpAddress();
+            
         }
         /// <summary>
         /// Accepts an input from the user and proccess it. This is the only visible method of Engine class
@@ -89,14 +93,21 @@ namespace HttpWebServer.Classes.Engine
 
             return this._bindingManager.GetBindingsIdAsKey();
         }
+        public Dictionary<int, IHttpServer> AllRuningServers()
+        {
+            return this._allRunningServers;
+        }
+        public void AddNewRunningServer(int port, IHttpServer serverRef)
+        {
+             this._allRunningServers.Add(port, serverRef);
+        }
 
         #region Private methods
         private string ProcessUserInput(ServerCommandsEnums serverCommand, string input)
         {
             var action = this._factoryMethod.GetRequiredActionClass(serverCommand);
-            var resul = action.PerformAction(input);
-
-            return "";
+            var result = action.PerformAction(input);
+            return action.GetResponse() ?? "";
         }
         private string GetLocalIpAddress()
         {
@@ -109,6 +120,10 @@ namespace HttpWebServer.Classes.Engine
             }
             return localIP;
         }
+
+       
+
+
         #endregion
     }
 

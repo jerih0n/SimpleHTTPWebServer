@@ -234,7 +234,15 @@ namespace HttpWebServer.GUI
         }
         private void startServer_Click(object sender, RoutedEventArgs e)
         {
-
+            var validationModel = new StartServerModel((int)selectedSiteId.Content);
+            var validationResult = validationModel.Validate();
+            if(!validationResult.IsValid)
+            {
+                this._loadingHelper.AddNewItemToServeRecentNodesList(serverRequestResponeList, validationResult.Message);
+                return;
+            }
+            var response = this._engine.TakeUserInput(validationResult.HTTPServerClassCommand, validationResult.InputForHTTPServerClass);
+            this._loadingHelper.AddNewItemToServeRecentNodesList(serverRequestResponeList, response);
         }
 
         private void restartServer_Click(object sender, RoutedEventArgs e)

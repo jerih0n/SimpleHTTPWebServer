@@ -16,6 +16,8 @@ namespace HttpWebServer.Interfaces
         string LocalIpAddress { get; }
         string LocalHostIp { get; }
         Dictionary<int, WebsiteBingingParameters> GetAllBindings();
-        
+        Dictionary<int, IHttpServer> AllRuningServers();
+        void AddNewRunningServer(int port, IHttpServer serverRef);
+
     }
 }

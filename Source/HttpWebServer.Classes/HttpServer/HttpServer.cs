@@ -76,7 +76,7 @@ namespace HttpWebServer.Classes.HttpServer
             
             while(reader.Peek()!= -1)
             {
-
+                //MORE INFORMATION !
             }
             return "";
         }

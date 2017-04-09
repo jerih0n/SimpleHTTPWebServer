@@ -13,9 +13,9 @@ namespace HttpWebServer.Classes.Actions
     {
         private IHttpServer _server;
         private string _response;
-        public Action(IHttpServer engineInstance)
+        public Action(IHttpServer httpServerIstance)
         {
-            this._server = engineInstance;
+            this._server = httpServerIstance;
             this._response = ServerOutput.ActionInProgress;
         }
         public abstract bool PerformAction(string input);

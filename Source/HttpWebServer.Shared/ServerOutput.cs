@@ -13,6 +13,7 @@ namespace HttpWebServer.Shared
         public static string PortNotValid = "Invalid port! Port number must be between 0 and 65535";
         public static string PortMustBeNumber = "Port must be a number between 0 and 65535";
         public static string ActionInProgress = "Not finished Action";
+        public static string ServerIsRunning = "New Server is started at port ";
 
     }
 }

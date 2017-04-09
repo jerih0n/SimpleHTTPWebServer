@@ -17,7 +17,7 @@
                         <Button x:Name="stopServer" Content="Stop" HorizontalAlignment="Left" Margin="28,73,0,0" VerticalAlignment="Top" Width="127" Click="stopServer_Click" Height="52"/>
                         <Button x:Name="restartServer" Content="Restart" HorizontalAlignment="Left" Margin="28,135,0,0" VerticalAlignment="Top" Width="127" Click="restartServer_Click" Height="62"/>
                     </Grid>
-                    <ListBox x:Name="serverRequestResponeList" HorizontalAlignment="Left" Height="129" Margin="10,310,0,0" VerticalAlignment="Top" Width="672" FontSize="10"/>
+                    <ListBox x:Name="serverRequestResponeList" HorizontalAlignment="Left" Height="129" Margin="10,310,0,0" VerticalAlignment="Top" Width="672" FontSize="13"/>
                     <Label Content="Server Main Control Panel" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="264"/>
                     <Label Content="Server Version 1.0" HorizontalAlignment="Left" Margin="10,439,0,0" VerticalAlignment="Top" FontSize="12"/>
                     <TextBlock HorizontalAlignment="Left" Margin="566,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106">
