@@ -1,4 +1,4 @@
-# SimpleHTTPWebServer
-## This is simple HTTP server build in C#
-CLI Interface
-## Support the following commands: (still in progress)
+# HTTP Web Server
+## HTTP server build in C#
+The server has GUI, build with WPF(Windows Presentation Foundation) technology
+
